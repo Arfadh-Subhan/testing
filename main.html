@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake Corner | Premium Bakery & Custom Cakes</title>
+    <link rel="stylesheet" href="main-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Cart -->
+    <div class="floating-cart">
+        <div class="cart-icon" id="cartToggle">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count">0</span>
+        </div>
+        <div class="cart-panel" id="cartPanel">
+            <div class="cart-header">
+                <h3>Your Order</h3>
+                <button class="close-cart" id="closeCart">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span class="total-amount">$0.00</span>
+                </div>
+                <button class="whatsapp-checkout" id="checkoutBtn">
+                    <i class="fab fa-whatsapp"></i>
+                    Order via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <span class="brand-name">Cake Corner</span>
+            </div>
+            <div class="nav-actions">
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#products" class="nav-link">Cakes</a></li>
+                    <li><a href="#custom" class="nav-link">Custom Cakes</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="seller-menu">
+                    <button class="seller-btn">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Seller</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="seller-dropdown">
+                        <a href="login.html" class="seller-login" id="sellerLogin">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Seller Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="parallax-layer layer-1" data-speed="0.5"></div>
+            <div class="parallax-layer layer-2" data-speed="0.3"></div>
+            <div class="parallax-layer layer-3" data-speed="0.1"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-line">Artisanal Cakes</span>
+                <span class="title-line">For Every</span>
+                <span class="title-line highlight">Celebration</span>
+            </h1>
+            <p class="hero-subtitle">Handcrafted perfection in every slice. Fresh ingredients, unforgettable flavors.</p>
+            <div class="hero-actions">
+                <button class="btn btn-primary" id="exploreCakes">
+                    <span>Explore Collection</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="btn btn-secondary" id="viewGallery">
+                    <i class="fas fa-images"></i>
+                    <span>View Gallery</span>
+                </button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Happy Customers</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Cake Varieties</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Delivery</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <span>Scroll to Explore</span>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+<section id="products" class="products">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Our Signature Collection</h2>
+            <p class="section-subtitle">Each cake tells a story of craftsmanship and passion</p>
+        </div>
+        <div class="products-container">
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded via JavaScript -->
+            </div>
+            <!-- ADD THIS CAROUSEL NAVIGATION RIGHT HERE -->
+            <div class="carousel-nav">
+                <button class="carousel-btn prev-btn" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="carousel-dots" id="carouselDots">
+                    <!-- Dots will be generated via JavaScript -->
+                </div>
+                <button class="carousel-btn next-btn" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Custom Cakes Section -->
+    <section id="custom" class="custom-cakes-section">
+        <!-- Left Side - Background Image & Text -->
+        <div class="custom-left-side">
+            <div class="custom-background-image"></div>
+            
+            <!-- Floating Cake Cards -->
+            <div class="floating-cakes">
+                <div class="cake-card cake-card-1">
+                    <div class="cake-image">
+                        <i class="fas fa-birthday-cake"></i>
+                    </div>
+                    <div class="cake-info">
+                        <h3>Chocolate Dream</h3>
+                        <p>Rich chocolate layers with buttercream</p>
+                    </div>
+                </div>
+                
+                <div class="cake-card cake-card-2">
+                    <div class="cake-image">
+                        <i class="fas fa-cheese"></i>
+                    </div>
+                    <div class="cake-info">
+                        <h3>Vanilla Bliss</h3>
+                        <p>Classic vanilla with fresh berries</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-container">
+                <!-- Original Text State -->
+                <div class="text-state original-text active">
+                    <h1>Didn't find your cake?</h1>
+                    <p>If you have a custom plan, talk to us!</p>
+                    <div class="custom-features">
+                        <div class="feature">
+                            <i class="fas fa-palette"></i>
+                            <span>Fully Customizable Designs</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <span>Premium Quality Ingredients</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <span>Consultation & Planning</span>
+                        </div>
+                    </div>
+                    <button class="start-customizing-btn" id="startCustomizing">
+                        <i class="fas fa-magic"></i>
+                        Start Customizing Your Cake
+                    </button>
+                </div>
+                
+                <!-- Design Mode Text State -->
+                <div class="text-state design-text">
+                    <h1>Hmm! What shall we design?</h1>
+                    <p>Let's create something extraordinary together</p>
+                    <div class="design-tips">
+                        <div class="tip">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Share your ideas and inspiration</span>
+                        </div>
+                        <div class="tip">
+                            <i class="fas fa-palette"></i>
+                            <span>Choose colors, themes, and flavors</span>
+                        </div>
+                        <div class="tip">
+                            <i class="fas fa-heart"></i>
+                            <span>We'll bring your vision to life</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Side - Form -->
+        <div class="custom-right-side">
+            <div class="custom-form-container" id="customFormContainer">
+                <div class="form-header">
+                    <button class="back-btn" id="backBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="form-title">
+                        <h2>Custom Cake Order</h2>
+                        <p>Design your dream cake!</p>
+                    </div>
+                </div>
+                
+                <div class="form-scroll-container">
+                    <form id="customCakeForm" class="custom-form">
+                        <div class="form-group">
+                            <label for="flavor">Cake Flavor</label>
+                            <select id="flavor" name="flavor" required>
+                                <option value="">Select a flavor</option>
+                                <option value="vanilla">Vanilla</option>
+                                <option value="chocolate">Chocolate</option>
+                                <option value="red-velvet">Red Velvet</option>
+                                <option value="strawberry">Strawberry</option>
+                                <option value="lemon">Lemon</option>
+                                <option value="carrot">Carrot</option>
+                                <option value="coffee">Coffee</option>
+                                <option value="other">Other (specify in custom design)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="occasion">Occasion</label>
+                            <select id="occasion" name="occasion" required>
+                                <option value="">Select occasion</option>
+                                <option value="birthday">Birthday</option>
+                                <option value="wedding">Wedding</option>
+                                <option value="anniversary">Anniversary</option>
+                                <option value="baby-shower">Baby Shower</option>
+                                <option value="graduation">Graduation</option>
+                                <option value="corporate">Corporate Event</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="size">Cake Size</label>
+                            <select id="size" name="size" required>
+                                <option value="">Select size</option>
+                                <option value="small">Small (6-8 servings)</option>
+                                <option value="medium">Medium (10-12 servings)</option>
+                                <option value="large">Large (15-20 servings)</option>
+                                <option value="x-large">Extra Large (25+ servings)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="toppings">Toppings & Decorations</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="toppings" value="fresh-fruit"> Fresh Fruit
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="toppings" value="chocolate"> Chocolate Decorations
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="toppings" value="flowers"> Edible Flowers
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="toppings" value="sprinkles"> Sprinkles
+                                </label>
+                                <label class="checkbox-option">
+                                    <input type="checkbox" name="toppings" value="fondant"> Fondant Figures
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="writing">Special Writing/Message</label>
+                            <textarea id="writing" name="writing" placeholder="What message would you like on the cake?"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="allergies">Allergies/Dietary Restrictions</label>
+                            <input type="text" id="allergies" name="allergies" placeholder="e.g., nut-free, gluten-free, etc.">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="delivery-date">Preferred Delivery Date</label>
+                            <input type="date" id="delivery-date" name="delivery-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="custom-design">Custom Design Details</label>
+                            <textarea id="custom-design" name="custom-design" placeholder="Describe your custom design, attach reference images if available, or any specific requirements..." rows="4"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="budget">Budget Range</label>
+                            <select id="budget" name="budget">
+                                <option value="">Select budget range</option>
+                                <option value="under-3000">Under LKR 3,000</option>
+                                <option value="3000-5000">LKR 3,000 - 5,000</option>
+                                <option value="5000-8000">LKR 5,000 - 8,000</option>
+                                <option value="8000-12000">LKR 8,000 - 12,000</option>
+                                <option value="over-12000">Over LKR 12,000</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fab fa-whatsapp"></i>
+                            Send Custom Order via WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cake Modal -->
+    <div class="modal" id="cakeModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <div class="modal-content">
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-body" id="modalBody">
+                    <!-- Modal content loaded via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-background">
+            <div class="parallax-layer about-layer-1" data-speed="0.4"></div>
+            <div class="parallax-layer about-layer-2" data-speed="0.2"></div>
+        </div>
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">Our Story of Sweet Creations</h2>
+                    <p>Founded with a passion for bringing joy through exquisite cakes, Cake Corner has been crafting memorable experiences since 2024. Our master bakers combine traditional techniques with innovative flavors.</p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-award"></i>
+                            <h4>Premium Quality</h4>
+                            <p>Only the finest ingredients sourced locally</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-heart"></i>
+                            <h4>Made with Love</h4>
+                            <p>Every cake crafted with attention to detail</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <h4>Fresh Daily</h4>
+                            <p>Baked fresh each morning for optimal taste</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1559620192-032c4bc4674e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Our Bakery">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Ready to make your celebration sweeter?</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h4>Visit Our Bakery</h4>
+                        <p>123 Sweet Avenue<br>Dessert City, DC 12345</p>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fas fa-phone"></i>
+                        <h4>Call Us</h4>
+                        <p>+1 (555) 123-CAKE<br>Mon-Sun: 8AM - 8PM</p>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email Us</h4>
+                        <p>orders@cakecorner.com<br>Response within 2 hours</p>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Phone Number">
+                        <select required>
+                            <option value="">Select Occasion</option>
+                            <option value="birthday">Birthday</option>
+                            <option value="wedding">Wedding</option>
+                            <option value="anniversary">Anniversary</option>
+                            <option value="corporate">Corporate</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <textarea placeholder="Tell us about your dream cake..." rows="5" required></textarea>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Inquiry
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-birthday-cake"></i>
+                        <span>Cake Corner</span>
+                    </div>
+                    <p>Creating sweet memories one cake at a time. Premium quality, exceptional taste.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Cakes</a></li>
+                        <li><a href="#custom">Custom Cakes</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#custom">Custom Cakes</a></li>
+                        <li><a href="#">Wedding Cakes</a></li>
+                        <li><a href="#">Corporate Orders</a></li>
+                        <li><a href="#">Delivery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Sweet Avenue, Dessert City</p>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-CAKE</p>
+                        <p><i class="fas fa-envelope"></i> hello@cakecorner.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Cake Corner. All rights reserved. | Crafted with <i class="fas fa-heart"></i> and sugar</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main-script.js"></script>
+</body>
+</html>
