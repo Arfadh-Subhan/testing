@@ -1,115 +1,165 @@
-// script.js - 100% WORKING AUTOMATED SIGNUP
-console.log('🚀 script.js loaded - 100% Working!');
+// Debug: Check what's loading
+console.log('🚀 script.js loaded');
 
-// YOUR NEW GOOGLE APPS SCRIPT URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOYwnG_nt7kAfka9ALNG7C09CrhIApItPNQv73e9JxEnDQfQJw_gkxLx9X2Swfcc4U/exec';
-
-// Your Google Sheets URL for reading
-const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT_iEPvhpGWezQLh2epTYiftivxDyH-vPu_lw9NSk4LEVX3OmLe8RSW1Y0avL8kfRqpk4cC9OKmI1Z3/pub?output=csv';
-
-// DOM Elements
+// DOM Elements with proper null checks
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
 const showSignup = document.getElementById('showSignup');
 const showLogin = document.getElementById('showLogin');
+const togglePassword = document.getElementById('togglePassword');
+const toggleSignupPassword = document.getElementById('toggleSignupPassword');
+const notification = document.getElementById('notification');
+const notificationText = document.getElementById('notificationText');
 const guestBtn = document.querySelector('.guest-btn');
+const forgotPassword = document.querySelector('.forgot-password');
 
-// Show Notification
-function showNotification(message, type = 'success') {
-    alert(message);
+// Debug elements
+console.log('Elements found:', {
+    loginForm: !!loginForm,
+    signupForm: !!signupForm,
+    showSignup: !!showSignup,
+    showLogin: !!showLogin,
+    togglePassword: !!togglePassword,
+    toggleSignupPassword: !!toggleSignupPassword,
+    guestBtn: !!guestBtn,
+    forgotPassword: !!forgotPassword
+});
+
+// Storage Keys
+const USER_STORAGE_KEY = 'cakeCornerUsers';
+
+// Initialize Storage - SIMPLE VERSION
+function initializeStorage() {
+    let users = {};
+    
+    try {
+        const storedUsers = localStorage.getItem(USER_STORAGE_KEY);
+        if (storedUsers) {
+            users = JSON.parse(storedUsers);
+        }
+    } catch (e) {
+        console.log('No existing users found, creating fresh storage');
+    }
+    
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+    console.log('📦 Storage initialized');
 }
 
-// Read from Google Sheets
-async function getUsersFromSheet() {
+// Get All Users
+function getUsers() {
     try {
-        const response = await fetch(GOOGLE_SHEETS_URL);
-        const csvText = await response.text();
-        const lines = csvText.split('\n');
-        const users = {};
-        
-        for (let i = 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (!line) continue;
-            
-            const columns = line.split(',');
-            if (columns.length >= 3) {
-                const username = columns[0].trim();
-                const name = columns[1].trim();
-                const password = columns[2].trim();
-                
-                if (username) {
-                    users[username.toLowerCase()] = {
-                        username: username,
-                        name: name,
-                        password: password,
-                        role: 'customer',
-                        signupDate: new Date().toISOString()
-                    };
-                }
-            }
-        }
-        return users;
-    } catch (error) {
-        console.error('Error reading sheet:', error);
+        return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '{}');
+    } catch (e) {
+        console.error('Error reading users:', e);
         return {};
     }
 }
 
-// Save user to Google Sheets - 100% WORKING
-async function saveUserToSheet(userData) {
-    try {
-        console.log('Saving user to Google Sheets:', userData);
-        
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData)
-        });
-        
-        const result = await response.json();
-        console.log('Save result:', result);
-        
-        return result;
-        
-    } catch (error) {
-        console.error('Error saving to sheet:', error);
-        return { success: false, message: 'Network error' };
-    }
+// Save User
+function saveUser(username, userData) {
+    const users = getUsers();
+    users[username.toLowerCase()] = userData;
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+    console.log('💾 User saved:', username);
 }
 
-// Check if username exists
-async function usernameExists(username) {
-    const sheetUsers = await getUsersFromSheet();
-    return sheetUsers.hasOwnProperty(username.toLowerCase());
+// Check if Username Exists
+function usernameExists(username) {
+    const users = getUsers();
+    const exists = users.hasOwnProperty(username.toLowerCase());
+    console.log('🔍 Username check:', username, 'exists:', exists);
+    return exists;
 }
 
-// Validate login
-async function validateLogin(username, password) {
-    const sheetUsers = await getUsersFromSheet();
+// Validate Login - SIMPLE VERSION
+function validateLogin(username, password) {
+    const users = getUsers();
     const userKey = username.toLowerCase();
+    const user = users[userKey];
     
-    if (sheetUsers[userKey] && sheetUsers[userKey].password === password) {
-        return sheetUsers[userKey];
+    console.log('🔐 Login attempt:', { 
+        username, 
+        userFound: !!user
+    });
+    
+    if (user && user.password === password) {
+        console.log('✅ Login successful for user:', user.username);
+        return user;
     }
+    
+    console.log('❌ Login failed');
     return null;
 }
 
-// Handle successful login
-function handleSuccessfulLogin(userData) {
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('user', JSON.stringify(userData));
-    showNotification(`Welcome ${userData.name || userData.username}!`);
-    setTimeout(() => window.location.href = 'main.html', 1000);
+// Show Notification
+function showNotification(message, type = 'success') {
+    console.log('📢 Notification:', message);
+    
+    if (notification && notificationText) {
+        notificationText.textContent = message;
+        notification.className = 'notification';
+        notification.classList.add(type, 'show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    } else {
+        // Fallback alert
+        alert(message);
+    }
 }
 
-// Setup all event listeners
+// Handle Successful Login
+function handleSuccessfulLogin(userData) {
+    console.log('✅ Login successful, user data:', userData);
+    
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('user', JSON.stringify(userData));
+    
+    showNotification(`Welcome ${userData.name || userData.username}! Redirecting...`);
+    
+    setTimeout(() => {
+        window.location.href = 'main.html';
+    }, 1000);
+}
+
+// Setup Event Listeners
 function setupEventListeners() {
-    // SIGNUP FORM - 100% WORKING
-    if (signupForm) {
-        signupForm.addEventListener('submit', async (e) => {
+    console.log('🔧 Setting up event listeners...');
+    
+    // Login Form - SIMPLE VERSION
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            console.log('📝 Login form submitted');
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            console.log('📨 Form data:', { username, password });
+            
+            if (!username || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            const userData = validateLogin(username, password);
+            if (!userData) {
+                showNotification('Invalid username or password', 'error');
+                return;
+            }
+            
+            handleSuccessfulLogin(userData);
+        });
+    } else {
+        console.error('❌ Login form not found!');
+    }
+
+    // Signup Form
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log('📝 Signup form submitted');
             
             const name = document.getElementById('signupName').value.trim();
             const username = document.getElementById('signupUsername').value.trim();
@@ -117,159 +167,178 @@ function setupEventListeners() {
             const confirmPassword = document.getElementById('confirmPassword').value;
             const agreeTerms = document.getElementById('agreeTerms');
             
+            console.log('📨 Signup data:', { name, username, password, confirmPassword });
+            
             // Validation
             if (!name || !username || !password || !confirmPassword) {
-                showNotification('Please fill in all fields', 'error'); return;
+                showNotification('Please fill in all fields', 'error');
+                return;
             }
+            
             if (username.length < 3) {
-                showNotification('Username must be at least 3 characters', 'error'); return;
+                showNotification('Username must be at least 3 characters', 'error');
+                return;
             }
+            
             if (password.length < 6) {
-                showNotification('Password must be at least 6 characters', 'error'); return;
+                showNotification('Password must be at least 6 characters', 'error');
+                return;
             }
+            
             if (password !== confirmPassword) {
-                showNotification('Passwords do not match', 'error'); return;
-            }
-            if (!agreeTerms.checked) {
-                showNotification('Please agree to terms', 'error'); return;
+                showNotification('Passwords do not match', 'error');
+                return;
             }
             
-            const exists = await usernameExists(username);
-            if (exists) {
-                showNotification('Username already exists', 'error'); return;
+            if (!agreeTerms || !agreeTerms.checked) {
+                showNotification('Please agree to terms and conditions', 'error');
+                return;
             }
             
-            // Create user data
-            const userData = { 
-                username: username, 
-                name: name, 
+            if (usernameExists(username)) {
+                showNotification('Username already exists', 'error');
+                return;
+            }
+            
+            // Create user
+            const userData = {
+                username: username,
+                name: name,
                 password: password,
                 role: 'customer',
                 signupDate: new Date().toISOString()
             };
             
-            // SAVE TO GOOGLE SHEETS - 100% WORKING
-            showNotification('Creating account and saving to database...');
+            saveUser(username, userData);
+            showNotification('Account created successfully! Please log in.');
             
-            try {
-                const saveResult = await saveUserToSheet(userData);
-                
-                if (saveResult.success) {
-                    showNotification('✅ ACCOUNT CREATED! Saved to Google Sheets!');
-                    
-                    // Switch to login form
-                    setTimeout(() => {
-                        signupForm.classList.add('hidden');
-                        loginForm.classList.remove('hidden');
-                        document.getElementById('username').value = username;
-                        document.getElementById('password').focus();
-                        signupForm.reset();
-                    }, 2000);
-                } else {
-                    showNotification('❌ Failed: ' + saveResult.message);
-                }
-            } catch (error) {
-                showNotification('❌ Network error. Try again.');
-            }
+            // Switch to login form
+            setTimeout(() => {
+                signupForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                document.getElementById('username').value = username;
+                document.getElementById('password').focus();
+                signupForm.reset();
+            }, 1500);
         });
+    } else {
+        console.error('❌ Signup form not found!');
     }
 
-    // LOGIN FORM - 100% WORKING
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            
-            if (!username || !password) {
-                showNotification('Please fill in all fields', 'error'); return;
-            }
-            
-            const userData = await validateLogin(username, password);
-            if (!userData) {
-                showNotification('Invalid username or password', 'error'); return;
-            }
-            
-            handleSuccessfulLogin(userData);
-        });
-    }
-
-    // GUEST LOGIN - 100% WORKING
+    // Guest Login
     if (guestBtn) {
         guestBtn.addEventListener('click', () => {
+            console.log('🎭 Guest login clicked');
             showNotification('Continuing as guest');
             localStorage.setItem('isGuest', 'true');
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('user');
-            setTimeout(() => window.location.href = 'main.html', 800);
+            
+            setTimeout(() => {
+                window.location.href = 'main.html';
+            }, 800);
+        });
+    } else {
+        console.error('❌ Guest button not found!');
+    }
+
+    // Forgot Password
+    if (forgotPassword) {
+        forgotPassword.addEventListener('click', (e) => {
+            e.preventDefault();
+            showNotification('Password reset feature coming soon!');
         });
     }
 
-    // FORM TOGGLES - 100% WORKING
+    // Form Toggle - Show Signup
     if (showSignup) {
         showSignup.addEventListener('click', (e) => {
             e.preventDefault();
+            console.log('🔄 Switching to signup form');
             loginForm.classList.add('hidden');
             signupForm.classList.remove('hidden');
         });
+    } else {
+        console.error('❌ Show signup button not found!');
     }
 
+    // Form Toggle - Show Login
     if (showLogin) {
         showLogin.addEventListener('click', (e) => {
             e.preventDefault();
+            console.log('🔄 Switching to login form');
             signupForm.classList.add('hidden');
             loginForm.classList.remove('hidden');
         });
+    } else {
+        console.error('❌ Show login button not found!');
     }
 
-    // PASSWORD VISIBILITY TOGGLES - 100% WORKING
-    const togglePassword = document.getElementById('togglePassword');
+    // Password Visibility Toggle - Login Form
     if (togglePassword) {
         togglePassword.addEventListener('click', () => {
+            console.log('👁️ Toggling password visibility');
             const passwordInput = document.getElementById('password');
             const icon = togglePassword.querySelector('i');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            
+            if (passwordInput && icon) {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
             }
         });
+    } else {
+        console.error('❌ Toggle password button not found!');
     }
 
-    const toggleSignupPassword = document.getElementById('toggleSignupPassword');
+    // Password Visibility Toggle - Signup Form
     if (toggleSignupPassword) {
         toggleSignupPassword.addEventListener('click', () => {
+            console.log('👁️ Toggling signup password visibility');
             const passwordInput = document.getElementById('signupPassword');
             const icon = toggleSignupPassword.querySelector('i');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            
+            if (passwordInput && icon) {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
             }
         });
+    } else {
+        console.error('❌ Toggle signup password button not found!');
     }
 }
 
-// INITIALIZE - 100% WORKING
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🏁 DOM fully loaded');
+    
+    initializeStorage();
     setupEventListeners();
     
-    // Test connection
-    getUsersFromSheet().then(users => {
-        console.log('✅ Google Sheets connected! Users:', Object.keys(users).length);
-    });
-    
-    // Redirect if already logged in
+    // Redirect if already authenticated
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const isGuest = localStorage.getItem('isGuest') === 'true';
+    
+    console.log('🔍 Auth check:', { isLoggedIn, isGuest });
+    
     if (isLoggedIn || isGuest) {
+        console.log('➡️ Already authenticated, redirecting...');
         window.location.href = 'main.html';
+        return;
     }
     
-    console.log('✅ Login page ready - 100% WORKING!');
+    console.log('✅ Login page ready!');
 });
