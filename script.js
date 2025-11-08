@@ -1,7 +1,10 @@
-// script.js - UPDATED WITH GOOGLE SHEETS DATABASE
-console.log('🚀 script.js loaded with Google Sheets!');
+// script.js - FULLY AUTOMATED WITH GOOGLE SHEETS SIGNUP
+console.log('🚀 script.js loaded with Automated Google Sheets!');
 
-// Your Google Sheets URL
+// Your Google Apps Script URL
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFcwkKkA4CIZQHg8HEqEHtIuxmjpYn3Vt9r6YsIEsRT_gkkWD4ndNNoXpLTirgPw/exec';
+
+// Your Google Sheets URL for reading
 const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT_iEPvhpGWezQLh2epTYiftivxDyH-vPu_lw9NSk4LEVX3OmLe8RSW1Y0avL8kfRqpk4cC9OKmI1Z3/pub?output=csv';
 
 // DOM Elements
@@ -61,7 +64,34 @@ async function getUsersFromSheet() {
     }
 }
 
-// Backup storage (for new signups)
+// Save user to Google Sheets via Apps Script
+async function saveUserToSheet(userData) {
+    try {
+        console.log('📤 Saving user to Google Sheets:', userData);
+        
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
+        
+        const result = await response.text();
+        console.log('📨 Google Script response:', result);
+        
+        return { success: true, message: 'User saved to Google Sheets!' };
+        
+    } catch (error) {
+        console.error('❌ Error saving to Google Sheets:', error);
+        return { 
+            success: false, 
+            message: 'Failed to save to Google Sheets, but account created locally.' 
+        };
+    }
+}
+
+// Backup storage (fallback)
 function initializeBackupStorage() {
     if (!localStorage.getItem('cakeCornerUsers')) {
         localStorage.setItem('cakeCornerUsers', JSON.stringify({}));
@@ -155,7 +185,7 @@ function setupEventListeners() {
         });
     }
 
-    // Signup Form
+    // Signup Form - UPDATED FOR AUTOMATIC SHEET SAVING
     if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -199,7 +229,7 @@ function setupEventListeners() {
                 return;
             }
             
-            // Create user
+            // Create user data
             const userData = {
                 username: username,
                 name: name,
@@ -208,10 +238,26 @@ function setupEventListeners() {
                 signupDate: new Date().toISOString()
             };
             
-            // Save to backup storage
-            saveUserToBackup(username, userData);
+            // Show loading message
+            showNotification('Creating account and saving to database...');
             
-            showNotification('Account created successfully! Please log in.');
+            try {
+                // Try to save to Google Sheets
+                const saveResult = await saveUserToSheet(userData);
+                
+                if (saveResult.success) {
+                    showNotification('Account created successfully! Saved to Google Sheets!');
+                } else {
+                    // Fallback to local storage
+                    saveUserToBackup(username, userData);
+                    showNotification('Account created! (Saved locally - Google Sheets unavailable)');
+                }
+                
+            } catch (error) {
+                // Fallback to local storage
+                saveUserToBackup(username, userData);
+                showNotification('Account created! (Saved locally)');
+            }
             
             // Switch to login form
             setTimeout(() => {
@@ -220,7 +266,7 @@ function setupEventListeners() {
                 document.getElementById('username').value = username;
                 document.getElementById('password').focus();
                 signupForm.reset();
-            }, 1500);
+            }, 2000);
         });
     }
 
@@ -316,5 +362,5 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    console.log('✅ Login page ready with Google Sheets!');
+    console.log('✅ Login page ready with Automated Google Sheets!');
 });
