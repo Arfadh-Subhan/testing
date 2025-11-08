@@ -1,9 +1,7 @@
 // script.js - FULLY AUTOMATED WITH GOOGLE SHEETS SIGNUP
 console.log('🚀 script.js loaded with Automated Google Sheets!');
 
-// Your Google Apps Script URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFcwkKkA4CIZQHg8HEqEHtIuxmjpYn3Vt9r6YsIEsRT_gkkWD4ndNNoXpLTirgPw/exec';
-
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyfdxn7njK3vRt8CstcyaFOlcdG-w724iQWwiFTdarAHJoHQ49foy6hmqs0Mqr0GRP/exec';
 // Your Google Sheets URL for reading
 const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT_iEPvhpGWezQLh2epTYiftivxDyH-vPu_lw9NSk4LEVX3OmLe8RSW1Y0avL8kfRqpk4cC9OKmI1Z3/pub?output=csv';
 
