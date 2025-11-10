@@ -722,17 +722,18 @@ body {
         height: 100%;
         background-attachment: scroll;
         background-size: cover;
+        background-position: center center; /* Center the image */
         transform: none;
     }
 
-    /* Welcome Text with Scroll Animation */
+    /* Welcome Text - Left Aligned with Scroll Animation */
     .welcome-text {
         position: absolute;
         bottom: 20%;
         left: 10%;
         right: 10%;
         max-width: none;
-        text-align: center;
+        text-align: left; /* Left aligned text */
         transition: all 0.5s ease;
         z-index: 10;
     }
@@ -746,11 +747,13 @@ body {
         font-size: 2.2rem;
         margin-bottom: 15px;
         text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8);
+        text-align: left; /* Ensure left alignment */
     }
 
     .welcome-text p {
         font-size: 1.1rem;
         text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+        text-align: left; /* Ensure left alignment */
     }
 
     /* Right Side - Login Form */
@@ -871,12 +874,19 @@ body {
         flex: 0 0 55vh;
     }
 
+    .welcome-text {
+        left: 8%; /* Slightly less left margin on very small screens */
+        right: 8%;
+    }
+
     .welcome-text h1 {
         font-size: 1.8rem;
+        text-align: left; /* Left aligned */
     }
 
     .welcome-text p {
         font-size: 1rem;
+        text-align: left; /* Left aligned */
     }
 
     .right-side {
@@ -905,10 +915,14 @@ body {
     
     .welcome-text {
         bottom: 15%;
+        left: 8%;
+        right: 8%;
+        text-align: left; /* Left aligned in landscape too */
     }
     
     .welcome-text h1 {
         font-size: 1.6rem;
+        text-align: left;
     }
     
     .login-card {
