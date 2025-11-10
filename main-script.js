@@ -947,3 +947,59 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('✅ Cake Corner - All systems ready!');
 });
+
+// Add this method to your ShoppingCart class:
+setupCustomCakeModal() {
+    const startCustomizingBtn = document.getElementById('startCustomizing');
+    const closeCustomModal = document.getElementById('closeCustomModal');
+    const customCakeModal = document.getElementById('customCakeModal');
+    const customCakeModalBody = document.querySelector('.custom-cake-modal-body');
+    const customForm = document.getElementById('customCakeForm');
+
+    if (startCustomizingBtn && customCakeModal) {
+        startCustomizingBtn.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                // Mobile: Show modal
+                customCakeModal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                
+                // Move form to modal if not already there
+                if (customForm && !customForm.closest('.custom-cake-modal-body')) {
+                    customCakeModalBody.innerHTML = '';
+                    customCakeModalBody.appendChild(customForm);
+                    customForm.classList.remove('hidden');
+                }
+            } else {
+                // Desktop: Original behavior
+                this.showCustomForm();
+            }
+        });
+    }
+
+    if (closeCustomModal && customCakeModal) {
+        closeCustomModal.addEventListener('click', () => {
+            customCakeModal.classList.remove('show');
+            document.body.style.overflow = '';
+        });
+
+        // Close modal when clicking outside
+        customCakeModal.addEventListener('click', (e) => {
+            if (e.target === customCakeModal) {
+                customCakeModal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close modal with escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && customCakeModal.classList.contains('show')) {
+                customCakeModal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+}
+
+// Then call this method in your init():
+// Add this line inside your ShoppingCart init() method:
+this.setupCustomCakeModal();
