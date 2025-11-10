@@ -3007,3 +3007,173 @@ body {
         font-size: 0.9rem;
     }
 }
+
+/* ===== MOBILE RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    /* Mobile Navbar */
+    .navbar {
+        padding: 0.8rem 0;
+        height: 60px;
+    }
+    
+    .nav-container {
+        padding: 0 1rem;
+    }
+    
+    .nav-menu {
+        display: none;
+    }
+    
+    .seller-menu {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .seller-dropdown {
+        right: 0;
+        left: auto;
+        transform: none;
+        margin-top: 0.5rem;
+    }
+    
+    .seller-dropdown.show {
+        display: block;
+    }
+    
+    /* Profile & Order History Modals */
+    .user-profile-modal,
+    .order-history-modal {
+        max-width: 95%;
+        margin: 1rem auto;
+        padding: 1.5rem;
+    }
+    
+    .modal-container {
+        width: 95%;
+        margin: 1rem auto;
+    }
+    
+    .modal-product {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .modal-product-image img {
+        height: 200px;
+    }
+    
+    /* Custom Cake Section - Fixed Right Sidebar */
+    .custom-cakes-section {
+        flex-direction: column;
+        min-height: auto;
+    }
+    
+    .custom-cakes-section.form-active .custom-left-side {
+        flex: 0 0 40vh;
+    }
+    
+    .custom-cakes-section.form-active .custom-right-side {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 85%;
+        max-width: 400px;
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .custom-cakes-section.form-active .custom-right-side {
+        transform: translateX(0);
+    }
+    
+    .custom-form-container {
+        max-height: 100vh;
+        border-radius: 0;
+    }
+    
+    .form-scroll-container {
+        max-height: calc(100vh - 80px);
+    }
+    
+    /* Guest Notification Below Navbar */
+    .guest-notification-banner {
+        top: 60px;
+        padding: 12px 1rem;
+    }
+    
+    .notification-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    /* Products Carousel */
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .carousel-nav {
+        margin-top: 2rem;
+    }
+    
+    /* Floating Cart Adjustments */
+    .floating-cart {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .cart-panel {
+        width: 320px;
+        right: -20px;
+        bottom: 70px;
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    .seller-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .seller-btn span {
+        display: none;
+    }
+    
+    .custom-cakes-section.form-active .custom-right-side {
+        width: 90%;
+    }
+    
+    .cart-panel {
+        width: 280px;
+        right: -40px;
+    }
+    
+    .guest-notification-banner {
+        padding: 10px 1rem;
+    }
+    
+    .notification-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile Landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+    .custom-cakes-section.form-active .custom-left-side {
+        flex: 0 0 30vh;
+    }
+    
+    .form-scroll-container {
+        max-height: calc(100vh - 70px);
+    }
+    
+    .guest-notification-banner {
+        top: 60px;
+    }
+}
