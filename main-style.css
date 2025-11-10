@@ -1140,36 +1140,6 @@ body {
     background: rgba(139, 69, 19, 0.1);
 }
 
-/* Mobile Menu Toggle */
-.mobile-menu-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    color: var(--white);
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-}
-
-.navbar.scrolled .mobile-menu-toggle {
-    background: var(--primary-brown);
-    color: var(--white);
-    border: 1px solid var(--primary-brown);
-}
-
-.mobile-menu-toggle:hover {
-    transform: scale(1.1);
-}
-
-.mobile-menu-toggle.active {
-    background: var(--primary-brown);
-}
-
 /* Seller Menu */
 .seller-menu {
     position: relative;
@@ -1217,7 +1187,6 @@ body {
     min-width: 180px;
     display: none;
     box-shadow: var(--glass-shadow);
-    z-index: 1000;
 }
 
 .seller-dropdown.show {
@@ -2389,6 +2358,514 @@ body {
     color: #ff4444;
 }
 
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .about-content,
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, auto);
+    }
+    
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .custom-cakes-section.form-active .custom-left-side {
+        flex: 0 0 45%;
+    }
+    
+    .custom-cakes-section.form-active .custom-right-side {
+        flex: 0 0 55%;
+    }
+    
+    .custom-form-container {
+        max-width: 420px;
+    }
+    
+    .original-text h1 {
+        font-size: 2.4rem;
+    }
+    
+    .design-text h1 {
+        font-size: 2.2rem;
+    }
+    
+    .custom-cakes-section.form-active::before {
+        left: 45%;
+    }
+    
+    .cake-card {
+        width: 160px;
+    }
+    
+    .cake-card-1 {
+        left: 5%;
+    }
+    
+    .cake-card-2 {
+        right: 5%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+    
+    .nav-menu {
+        display: none;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    
+    .form-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .floating-cart {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .cart-panel {
+        width: 320px;
+        right: -20px;
+    }
+    
+    .modal-product {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .modal-product-image img {
+        height: 250px;
+    }
+    
+    .order-history-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .custom-cakes-section {
+        flex-direction: column;
+        min-height: auto;
+    }
+    
+    .custom-cakes-section.form-active::before {
+        display: none;
+    }
+    
+    .custom-left-side {
+        flex: 0 0 55vh;
+        padding: 30px 20px;
+    }
+    
+    .custom-cakes-section.form-active .custom-left-side {
+        flex: 0 0 35vh;
+    }
+    
+    .custom-right-side {
+        flex: 1;
+        padding: 25px 20px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .custom-cakes-section.form-active .custom-right-side {
+        flex: 1;
+        box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.12);
+    }
+    
+    .custom-form-container {
+        max-width: 100%;
+        max-height: 65vh;
+    }
+    
+    .form-scroll-container {
+        max-height: calc(65vh - 80px);
+    }
+    
+    .text-container {
+        max-width: 450px;
+        padding: 25px 20px;
+        min-height: 350px;
+    }
+    
+    .original-text h1 {
+        font-size: 2rem;
+    }
+    
+    .design-text h1 {
+        font-size: 1.8rem;
+    }
+    
+    .original-text p, .design-text p {
+        font-size: 1rem;
+    }
+    
+    .cake-card {
+        width: 140px;
+        padding: 12px;
+    }
+    
+    .cake-image {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .cake-info h3 {
+        font-size: 0.9rem;
+    }
+    
+    .cake-info p {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .cart-panel {
+        width: 280px;
+        right: -40px;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-container {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .modal-body {
+        padding: 1.5rem;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .profile-info {
+        padding: 1rem;
+    }
+    
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    
+    .order-product {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    
+    .product-quantity,
+    .product-price {
+        margin-left: 0;
+    }
+    
+    .custom-left-side {
+        padding: 25px 15px;
+    }
+    
+    .custom-right-side {
+        padding: 20px 15px;
+    }
+    
+    .custom-form-container {
+        padding: 0;
+    }
+    
+    .form-header {
+        padding: 18px 18px 14px;
+    }
+    
+    .form-scroll-container {
+        padding: 0 18px 18px;
+    }
+    
+    .text-container {
+        padding: 20px 18px;
+        min-height: 300px;
+    }
+    
+    .original-text h1 {
+        font-size: 1.7rem;
+    }
+    
+    .design-text h1 {
+        font-size: 1.6rem;
+    }
+    
+    .original-text p, .design-text p {
+        font-size: 0.9rem;
+    }
+    
+    .feature, .tip {
+        font-size: 0.85rem;
+    }
+    
+    .start-customizing-btn {
+        padding: 14px 22px;
+        font-size: 0.95rem;
+    }
+    
+    .cake-card {
+        width: 120px;
+        padding: 10px;
+    }
+    
+    .cake-image {
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+    }
+    
+    .cake-info h3 {
+        font-size: 0.8rem;
+    }
+    
+    .cake-info p {
+        font-size: 0.7rem;
+    }
+}
+
+/* ===== HERO SECTION - FIXED BACKGROUND ===== */
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.layer-1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1089&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    filter: brightness(0.7);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: var(--white);
+    max-width: 800px;
+    padding: 0 2rem;
+}
+
+/* ===== CANCELLATION MODAL SPECIFIC STYLES ===== */
+/* Target only when cancellation modal is active */
+.modal-container.cancellation-modal-active {
+    max-width: 420px !important;
+    width: 90% !important;
+}
+
+/* Make sure other modals keep their original size */
+.modal-container:not(.cancellation-modal-active) {
+    max-width: 900px !important;
+    width: 90% !important;
+}
+
+/* Cancellation modal specific styles */
+.cancellation-modal {
+    text-align: center;
+    max-width: 380px;
+    padding: 2rem;
+    margin: 0 auto;
+}
+
+.cancellation-modal .warning-icon {
+    width: 50px;
+    height: 50px;
+    background: #fef2f2;
+    border: 2px solid #fecaca;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+}
+
+.cancellation-modal .warning-icon i {
+    font-size: 1.5rem;
+    color: #dc2626;
+}
+
+.cancellation-modal h3 {
+    color: #111827;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.cancellation-modal p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+    font-size: 0.9rem;
+}
+
+.cancellation-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.confirm-cancel-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    flex: 1;
+    max-width: 140px;
+}
+
+.confirm-cancel-btn:hover {
+    background: #b91c1c;
+}
+
+.cancel-cancel-btn {
+    background: #f9fafb;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    max-width: 140px;
+}
+
+.cancel-cancel-btn:hover {
+    background: #f3f4f6;
+}
+
+/* Responsive adjustments for cancellation modal only */
+@media (max-width: 480px) {
+    .modal-container.cancellation-modal-active {
+        max-width: 350px !important;
+        width: 95% !important;
+    }
+    
+    .cancellation-modal {
+        max-width: 320px;
+        padding: 1.5rem;
+    }
+    
+    .cancellation-modal .warning-icon {
+        width: 45px;
+        height: 45px;
+        margin-bottom: 1rem;
+    }
+    
+    .cancellation-modal .warning-icon i {
+        font-size: 1.3rem;
+    }
+    
+    .cancellation-modal h3 {
+        font-size: 1rem;
+    }
+    
+    .cancellation-modal p {
+        font-size: 0.85rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .cancellation-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .confirm-cancel-btn,
+    .cancel-cancel-btn {
+        max-width: none;
+        padding: 0.75rem;
+    }
+}
+
 /* ===== GUEST NOTIFICATION BANNER ===== */
 .guest-notification-banner {
     position: fixed;
@@ -2508,17 +2985,25 @@ body {
     }
 }
 
-<!-- Custom Cake Modal for Mobile -->
-<div class="custom-cake-modal" id="customCakeModal">
-    <div class="custom-cake-modal-content">
-        <div class="custom-cake-modal-header">
-            <h2>Custom Cake Order</h2>
-            <button class="close-custom-modal" id="closeCustomModal">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="custom-cake-modal-body">
-            <!-- The existing custom form will be moved here by JavaScript -->
-        </div>
-    </div>
-</div>
+/* Responsive */
+@media (max-width: 768px) {
+    .guest-notification-banner {
+        top: 70px;
+        padding: 12px 1rem;
+    }
+    
+    .notification-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .notification-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .notification-text {
+        font-size: 0.9rem;
+    }
+}
