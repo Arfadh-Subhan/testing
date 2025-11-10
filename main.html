@@ -41,34 +41,50 @@
         </div>
     </div>
 
-    <div class="nav-actions">
-    <ul class="nav-menu">
-        <li><a href="#home" class="nav-link active">Home</a></li>
-        <li><a href="#products" class="nav-link">Cakes</a></li>
-        <li><a href="#custom" class="nav-link">Custom Cakes</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
-    </ul>
-    
-    <!-- ADD THIS LINE RIGHT HERE -->
-    <div class="mobile-menu-toggle" style="display: none;">
-        <i class="fas fa-bars"></i>
-    </div>
-    
-    <div class="seller-menu">
-        <button class="seller-btn">
-            <i class="fas fa-user-shield"></i>
-            <span>Seller</span>
-            <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="seller-dropdown">
-            <a href="login.html" class="seller-login" id="sellerLogin">
-                <i class="fas fa-sign-in-alt"></i>
-                Seller Login
-            </a>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <span class="brand-name">Cake Corner</span>
+            </div>
+            <div class="nav-actions">
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#products" class="nav-link">Cakes</a></li>
+                    <li><a href="#custom" class="nav-link">Custom Cakes</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="seller-menu">
+                    <button class="seller-btn">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="seller-text">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="seller-dropdown">
+                        <a href="#" class="user-profile">
+                            <i class="fas fa-user"></i>
+                            My Profile
+                        </a>
+                        <a href="#" class="order-history">
+                            <i class="fas fa-history"></i>
+                            Order History
+                        </a>
+                        <a href="#" class="seller-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
