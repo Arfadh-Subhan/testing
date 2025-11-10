@@ -691,3 +691,228 @@ body {
         font-size: 0.8rem;
     }
 }
+
+
+/* ===== MOBILE LOGIN PAGE STYLES ===== */
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+        height: 100vh;
+    }
+
+    .container {
+        flex-direction: column;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+
+    /* Left Side - Parallax Hero Section */
+    .left-side {
+        flex: 0 0 60vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-attachment: fixed;
+        background-size: cover;
+        transform: translateZ(0);
+        will-change: transform;
+    }
+
+    /* Welcome Text with Scroll Animation */
+    .welcome-text {
+        position: absolute;
+        bottom: 20%;
+        left: 10%;
+        right: 10%;
+        max-width: none;
+        text-align: center;
+        transition: all 0.5s ease;
+        z-index: 10;
+    }
+
+    .welcome-text.scrolled {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    .welcome-text h1 {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8);
+    }
+
+    .welcome-text p {
+        font-size: 1.1rem;
+        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Right Side - Login Form */
+    .right-side {
+        flex: 1;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
+        position: relative;
+        min-height: 40vh;
+    }
+
+    .right-side::before {
+        display: none;
+    }
+
+    .login-card {
+        max-width: 100%;
+        max-height: none;
+        padding: 25px 20px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    /* Form Elements - Touch Friendly */
+    .input-group input {
+        padding: 16px 16px 16px 50px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        min-height: 50px;
+    }
+
+    .input-group i {
+        font-size: 1.2rem;
+        left: 18px;
+    }
+
+    .toggle-password {
+        width: 40px;
+        height: 40px;
+        right: 10px;
+        font-size: 1.2rem;
+    }
+
+    .login-btn, .signup-btn, .guest-btn {
+        padding: 16px;
+        font-size: 1.1rem;
+        min-height: 54px;
+        border-radius: 12px;
+    }
+
+    /* Remember me & Forgot password */
+    .remember-forgot {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .remember-me {
+        font-size: 1rem;
+    }
+
+    .forgot-password {
+        font-size: 1rem;
+        padding: 8px 0;
+    }
+
+    /* Brand Header Adjustments */
+    .brand-header {
+        margin-bottom: 20px;
+    }
+
+    .logo {
+        width: 70px;
+        height: 70px;
+    }
+
+    .logo i {
+        font-size: 2rem;
+    }
+
+    .brand-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .brand-header p {
+        font-size: 1rem;
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--white);
+        text-align: center;
+        z-index: 10;
+        opacity: 0.8;
+    }
+
+    .scroll-line {
+        width: 1px;
+        height: 30px;
+        background: var(--white);
+        margin: 0 auto 8px;
+        animation: mobileScrollBounce 2s infinite;
+    }
+
+    @keyframes mobileScrollBounce {
+        0%, 100% { transform: translateY(0); height: 30px; }
+        50% { transform: translateY(10px); height: 25px; }
+    }
+}
+
+@media (max-width: 480px) {
+    .left-side {
+        flex: 0 0 55vh;
+    }
+
+    .welcome-text h1 {
+        font-size: 1.8rem;
+    }
+
+    .welcome-text p {
+        font-size: 1rem;
+    }
+
+    .right-side {
+        padding: 25px 15px;
+    }
+
+    .login-card {
+        padding: 20px 15px;
+    }
+
+    .brand-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .input-group input {
+        padding: 14px 14px 14px 45px;
+        min-height: 48px;
+    }
+}
+
+/* Mobile Landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+    .left-side {
+        flex: 0 0 45vh;
+    }
+    
+    .welcome-text {
+        bottom: 15%;
+    }
+    
+    .welcome-text h1 {
+        font-size: 1.6rem;
+    }
+    
+    .login-card {
+        max-height: 65vh;
+        overflow-y: auto;
+    }
+}
