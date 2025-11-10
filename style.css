@@ -692,12 +692,12 @@ body {
     }
 }
 
-
 /* ===== MOBILE LOGIN PAGE STYLES ===== */
 @media (max-width: 768px) {
     body {
         overflow-x: hidden;
         height: 100vh;
+        overflow-y: auto;
     }
 
     .container {
@@ -711,18 +711,18 @@ body {
         flex: 0 0 60vh;
         position: relative;
         overflow: hidden;
+        height: 60vh;
     }
 
     .background-image {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        height: 100vh;
-        background-attachment: fixed;
+        height: 100%;
+        background-attachment: scroll;
         background-size: cover;
-        transform: translateZ(0);
-        will-change: transform;
+        transform: none;
     }
 
     /* Welcome Text with Scroll Animation */
