@@ -342,3 +342,141 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('✅ Login page ready!');
 });
+
+// ===== MOBILE LOGIN PAGE FUNCTIONALITY =====
+
+// Mobile-specific initialization
+function initMobileLogin() {
+    if (window.innerWidth <= 768) {
+        console.log('📱 Mobile login initialized');
+        setupMobileParallax();
+        setupMobileScrollEvents();
+        enhanceTouchInteractions();
+    }
+}
+
+// Parallax scrolling effect for mobile
+function setupMobileParallax() {
+    const backgroundImage = document.querySelector('.background-image');
+    const welcomeText = document.querySelector('.welcome-text');
+    const rightSide = document.querySelector('.right-side');
+    
+    if (!backgroundImage || !welcomeText) return;
+    
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    
+    function updateParallax() {
+        const scrollY = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        const leftSideHeight = document.querySelector('.left-side').offsetHeight;
+        
+        // Parallax background effect
+        const scrolled = Math.min(scrollY / leftSideHeight, 1);
+        const parallaxValue = scrollY * 0.5;
+        backgroundImage.style.transform = `translateY(${parallaxValue}px)`;
+        
+        // Welcome text fade out
+        const textOpacity = 1 - (scrollY / (leftSideHeight * 0.6));
+        const textScale = 1 - (scrollY / (leftSideHeight * 2));
+        
+        welcomeText.style.opacity = Math.max(textOpacity, 0);
+        welcomeText.style.transform = `translateY(${scrollY * 0.3}px) scale(${Math.max(textScale, 0.8)})`;
+        
+        // Add scrolled class for CSS animations
+        if (scrollY > 50) {
+            welcomeText.classList.add('scrolled');
+        } else {
+            welcomeText.classList.remove('scrolled');
+        }
+        
+        ticking = false;
+    }
+    
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+// Mobile scroll events
+function setupMobileScrollEvents() {
+    let scrollTimeout;
+    
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        
+        // Hide scroll indicator after user starts scrolling
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (scrollIndicator && window.scrollY > 100) {
+            scrollIndicator.style.opacity = '0';
+        }
+    }, { passive: true });
+}
+
+// Enhance touch interactions
+function enhanceTouchInteractions() {
+    // Add touch feedback to buttons
+    const buttons = document.querySelectorAll('button, .forgot-password, .nav-link');
+    
+    buttons.forEach(button => {
+        button.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        }, { passive: true });
+        
+        button.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        }, { passive: true });
+    });
+    
+    // Prevent zoom on double-tap for inputs
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        input.addEventListener('touchstart', function(e) {
+            // Small delay to prevent immediate focus issues
+            setTimeout(() => {
+                this.focus();
+            }, 100);
+        }, { passive: true });
+    });
+}
+
+// Update DOMContentLoaded to include mobile init
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🏁 DOM fully loaded');
+    
+    initializeStorage();
+    setupEventListeners();
+    
+    // Initialize mobile features
+    initMobileLogin();
+    
+    // Redirect if already authenticated
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const isGuest = localStorage.getItem('isGuest') === 'true';
+    
+    console.log('🔍 Auth check:', { isLoggedIn, isGuest });
+    
+    if (isLoggedIn || isGuest) {
+        console.log('➡️ Already authenticated, redirecting...');
+        window.location.href = 'main.html';
+        return;
+    }
+    
+    console.log('✅ Login page ready!');
+});
+
+// Handle orientation changes
+window.addEventListener('orientationchange', function() {
+    setTimeout(initMobileLogin, 100);
+});
+
+// Handle resize events
+window.addEventListener('resize', function() {
+    clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = setTimeout(initMobileLogin, 250);
+});
