@@ -1601,3 +1601,233 @@ function setupGuestNotification() {
         showGuestNotification();
     }, 1000);
 }
+
+// ===== MOBILE DROPDOWN MANAGEMENT =====
+class MobileDropdownManager {
+    constructor() {
+        this.currentDropdown = null;
+        this.init();
+    }
+
+    init() {
+        console.log('📱 Mobile dropdown manager initialized');
+        this.setupDropdownEvents();
+        this.setupMobileMenuClose();
+    }
+
+    setupDropdownEvents() {
+        // Seller dropdown
+        const sellerBtn = document.querySelector('.seller-btn');
+        const sellerDropdown = document.querySelector('.seller-dropdown');
+        
+        if (sellerBtn && sellerDropdown) {
+            sellerBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleDropdown(sellerDropdown);
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', () => {
+            this.closeAllDropdowns();
+        });
+
+        // Close dropdowns when scrolling on mobile
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 768) {
+                this.closeAllDropdowns();
+            }
+        });
+    }
+
+    toggleDropdown(dropdown) {
+        if (this.currentDropdown === dropdown) {
+            this.closeDropdown(dropdown);
+            this.currentDropdown = null;
+        } else {
+            this.closeAllDropdowns();
+            this.openDropdown(dropdown);
+            this.currentDropdown = dropdown;
+        }
+    }
+
+    openDropdown(dropdown) {
+        dropdown.classList.add('show');
+    }
+
+    closeDropdown(dropdown) {
+        dropdown.classList.remove('show');
+    }
+
+    closeAllDropdowns() {
+        const dropdowns = document.querySelectorAll('.seller-dropdown');
+        dropdowns.forEach(dropdown => {
+            this.closeDropdown(dropdown);
+        });
+        this.currentDropdown = null;
+    }
+
+    setupMobileMenuClose() {
+        // Close dropdowns when menu items are clicked
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.seller-dropdown a')) {
+                this.closeAllDropdowns();
+            }
+        });
+    }
+}
+
+// ===== MOBILE CUSTOM CAKE FORM =====
+function enhanceMobileCustomCakes() {
+    if (window.innerWidth > 768) return;
+    
+    const customSection = document.querySelector('.custom-cakes-section');
+    const customFormContainer = document.querySelector('.custom-form-container');
+    
+    if (!customSection || !customFormContainer) return;
+    
+    // Prevent body scroll when form is open
+    const originalOverflow = document.body.style.overflow;
+    
+    customSection.addEventListener('click', (e) => {
+        if (customSection.classList.contains('form-active') && 
+            !customFormContainer.contains(e.target) && 
+            e.target !== document.getElementById('startCustomizing')) {
+            window.cart.hideCustomForm();
+        }
+    });
+}
+
+// ===== ENHANCE MOBILE MODALS =====
+function enhanceMobileModals() {
+    if (window.innerWidth > 768) return;
+    
+    // Center modal content
+    const modalBody = document.getElementById('modalBody');
+    if (modalBody) {
+        modalBody.style.display = 'flex';
+        modalBody.style.flexDirection = 'column';
+        modalBody.style.alignItems = 'center';
+    }
+}
+
+// ===== UPDATE DOMCONTENTLOADED FOR MOBILE =====
+// Replace the existing DOMContentLoaded event listener in main-script.js with this:
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🏁 DOM fully loaded - initializing...');
+    
+    // Setup auth system
+    setupAuth();
+    
+    // Initialize shopping cart
+    window.cart = new ShoppingCart();
+    
+    // Initialize mobile dropdown manager
+    window.mobileDropdowns = new MobileDropdownManager();
+    
+    // Enhance mobile features
+    enhanceMobileCustomCakes();
+    enhanceMobileModals();
+    
+    console.log('✅ Cake Corner - All systems ready!');
+    
+    // Test function - can run in console
+    window.testAddToCart = () => {
+        window.cart.addToCart(1);
+    };
+});
+
+// ===== ENHANCE CUSTOM CAKE METHODS FOR MOBILE =====
+// Add these methods to the ShoppingCart class in main-script.js:
+
+// Inside the ShoppingCart class, add these methods:
+showCustomForm() {
+    console.log('🎂 Showing custom form');
+    
+    if (window.innerWidth <= 768) {
+        // Mobile: Fixed right sidebar
+        customCakesSection.classList.add('form-active');
+        this.switchToDesignText();
+        this.animateFloatingCakesOut();
+        
+        // Prevent body scrolling when form is open on mobile
+        document.body.style.overflow = 'hidden';
+        
+        // Add escape key listener
+        this.escapeHandler = this.handleEscapeKey.bind(this);
+        document.addEventListener('keydown', this.escapeHandler);
+    } else {
+        // Desktop: Original behavior
+        customCakesSection.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start'
+        });
+        
+        setTimeout(() => {
+            customCakesSection.classList.add('form-active');
+            this.switchToDesignText();
+            this.animateFloatingCakesOut();
+            document.body.style.overflow = 'hidden';
+            this.escapeHandler = this.handleEscapeKey.bind(this);
+            document.addEventListener('keydown', this.escapeHandler);
+        }, 800);
+    }
+}
+
+hideCustomForm() {
+    console.log('❌ Hiding custom form');
+    customCakesSection.classList.remove('form-active');
+    this.switchToOriginalText();
+    this.resetFloatingCakes();
+    
+    // Restore body scrolling
+    document.body.style.overflow = '';
+    
+    // Remove escape key listener
+    if (this.escapeHandler) {
+        document.removeEventListener('keydown', this.escapeHandler);
+    }
+}
+
+// ===== UPDATE GUEST NOTIFICATION POSITION =====
+// In the showGuestNotification function, ensure this CSS is applied:
+function showGuestNotification() {
+    const isGuest = localStorage.getItem('isGuest') === 'true';
+    
+    if (isGuest) {
+        // ... existing notification creation code ...
+        
+        // Ensure mobile positioning
+        notification.style.top = '60px'; // Below navbar
+        notification.style.left = '0';
+        notification.style.right = '0';
+        
+        // ... rest of existing code ...
+    }
+}
+
+.mobile-menu-toggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        color: var(--white);
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+    
+    .navbar.scrolled .mobile-menu-toggle {
+        background: var(--primary-brown);
+        color: var(--white);
+        border: 1px solid var(--primary-brown);
+    }
+}
