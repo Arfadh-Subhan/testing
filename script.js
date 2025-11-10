@@ -321,28 +321,6 @@ function setupEventListeners() {
     }
 }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🏁 DOM fully loaded');
-    
-    initializeStorage();
-    setupEventListeners();
-    
-    // Redirect if already authenticated
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const isGuest = localStorage.getItem('isGuest') === 'true';
-    
-    console.log('🔍 Auth check:', { isLoggedIn, isGuest });
-    
-    if (isLoggedIn || isGuest) {
-        console.log('➡️ Already authenticated, redirecting...');
-        window.location.href = 'main.html';
-        return;
-    }
-    
-    console.log('✅ Login page ready!');
-});
-
 // ===== MOBILE LOGIN PAGE FUNCTIONALITY =====
 
 // Mobile-specific initialization
@@ -359,29 +337,28 @@ function initMobileLogin() {
 function setupMobileParallax() {
     const backgroundImage = document.querySelector('.background-image');
     const welcomeText = document.querySelector('.welcome-text');
-    const rightSide = document.querySelector('.right-side');
     
-    if (!backgroundImage || !welcomeText) return;
+    if (!backgroundImage || !welcomeText) {
+        console.log('❌ Mobile parallax elements not found');
+        return;
+    }
     
-    let lastScrollY = window.scrollY;
     let ticking = false;
     
     function updateParallax() {
         const scrollY = window.scrollY;
-        const viewportHeight = window.innerHeight;
-        const leftSideHeight = document.querySelector('.left-side').offsetHeight;
+        const leftSide = document.querySelector('.left-side');
         
-        // Parallax background effect
-        const scrolled = Math.min(scrollY / leftSideHeight, 1);
-        const parallaxValue = scrollY * 0.5;
-        backgroundImage.style.transform = `translateY(${parallaxValue}px)`;
+        if (!leftSide) return;
+        
+        const leftSideHeight = leftSide.offsetHeight;
         
         // Welcome text fade out
         const textOpacity = 1 - (scrollY / (leftSideHeight * 0.6));
-        const textScale = 1 - (scrollY / (leftSideHeight * 2));
+        const textTranslate = scrollY * 0.3;
         
         welcomeText.style.opacity = Math.max(textOpacity, 0);
-        welcomeText.style.transform = `translateY(${scrollY * 0.3}px) scale(${Math.max(textScale, 0.8)})`;
+        welcomeText.style.transform = `translateY(${textTranslate}px)`;
         
         // Add scrolled class for CSS animations
         if (scrollY > 50) {
@@ -389,6 +366,10 @@ function setupMobileParallax() {
         } else {
             welcomeText.classList.remove('scrolled');
         }
+        
+        // Simple background parallax
+        const parallaxValue = scrollY * 0.3;
+        backgroundImage.style.transform = `translateY(${parallaxValue}px)`;
         
         ticking = false;
     }
@@ -401,6 +382,8 @@ function setupMobileParallax() {
     }
     
     window.addEventListener('scroll', onScroll, { passive: true });
+    
+    console.log('🎯 Mobile parallax initialized');
 }
 
 // Mobile scroll events
@@ -426,9 +409,14 @@ function enhanceTouchInteractions() {
     buttons.forEach(button => {
         button.addEventListener('touchstart', function() {
             this.style.transform = 'scale(0.98)';
+            this.style.transition = 'transform 0.1s ease';
         }, { passive: true });
         
         button.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        }, { passive: true });
+        
+        button.addEventListener('touchcancel', function() {
             this.style.transform = 'scale(1)';
         }, { passive: true });
     });
@@ -437,12 +425,23 @@ function enhanceTouchInteractions() {
     const inputs = document.querySelectorAll('input, textarea, select');
     inputs.forEach(input => {
         input.addEventListener('touchstart', function(e) {
-            // Small delay to prevent immediate focus issues
+            // Ensure proper focus on mobile
             setTimeout(() => {
                 this.focus();
-            }, 100);
+            }, 50);
         }, { passive: true });
+        
+        // Improve touch experience
+        input.addEventListener('focus', function() {
+            this.style.transform = 'scale(1.02)';
+        });
+        
+        input.addEventListener('blur', function() {
+            this.style.transform = 'scale(1)';
+        });
     });
+    
+    console.log('👆 Touch interactions enhanced');
 }
 
 // Update DOMContentLoaded to include mobile init
@@ -453,7 +452,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     
     // Initialize mobile features
-    initMobileLogin();
+    setTimeout(initMobileLogin, 100);
     
     // Redirect if already authenticated
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -472,11 +471,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Handle orientation changes
 window.addEventListener('orientationchange', function() {
-    setTimeout(initMobileLogin, 100);
+    console.log('🔄 Orientation changed');
+    setTimeout(initMobileLogin, 300);
 });
 
 // Handle resize events
+let resizeTimeout;
 window.addEventListener('resize', function() {
-    clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(initMobileLogin, 250);
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        console.log('📱 Screen resized');
+        initMobileLogin();
+    }, 250);
+});
+
+// Initialize on load
+window.addEventListener('load', function() {
+    console.log('🔄 Page fully loaded');
+    initMobileLogin();
 });
