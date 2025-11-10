@@ -305,6 +305,9 @@ function setupAuth() {
             }, 1000);
         }
     });
+    
+    // ADD THIS LINE - Setup guest notification
+    setupGuestNotification();
 }
 
 // Show User Profile Modal
@@ -1500,3 +1503,101 @@ document.addEventListener('DOMContentLoaded', () => {
         window.cart.addToCart(1);
     };
 });
+
+// ===== GUEST NOTIFICATION SYSTEM =====
+function showGuestNotification() {
+    const isGuest = localStorage.getItem('isGuest') === 'true';
+    
+    console.log('🔍 Guest Notification Debug:', {
+        isGuest: isGuest,
+        localStorage_isGuest: localStorage.getItem('isGuest')
+    });
+    
+    // Show for guest users every time they visit the page
+    if (isGuest) {
+        console.log('✅ Showing guest notification...');
+        
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'guest-notification-banner';
+        notification.innerHTML = `
+            <div class="laser-progress"></div>
+            <div class="notification-content">
+                <div class="notification-text">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Create a free account to manage orders, track your history, and cancel anytime with ease !</span>
+                </div>
+                <div class="notification-actions">
+                    <button class="close-notification" title="Dismiss">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Show with animation
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 500);
+        
+        // Setup scroll behavior (same as navbar)
+        setupNotificationScroll(notification);
+        
+        // Setup event listeners
+        setupNotificationEvents(notification);
+        
+        // Auto dismiss after 12 seconds
+        setTimeout(() => {
+            dismissNotification(notification);
+        }, 12000);
+    } else {
+        console.log('❌ Not showing guest notification - user is not guest');
+    }
+}
+
+function setupNotificationScroll(notification) {
+    // Same scroll behavior as navbar
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            notification.classList.add('scrolled');
+        } else {
+            notification.classList.remove('scrolled');
+        }
+    });
+}
+
+function setupNotificationEvents(notification) {
+    // Close button
+    const closeBtn = notification.querySelector('.close-notification');
+    closeBtn.addEventListener('click', () => {
+        dismissNotification(notification);
+    });
+    
+    // Close when clicking outside (optional)
+    notification.addEventListener('click', (e) => {
+        if (e.target === notification) {
+            dismissNotification(notification);
+        }
+    });
+}
+
+function dismissNotification(notification) {
+    notification.classList.remove('show');
+    
+    // Remove from DOM after animation
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, 300);
+}
+
+// Call this function from your existing auth setup
+function setupGuestNotification() {
+    // Wait a bit for page to load completely
+    setTimeout(() => {
+        showGuestNotification();
+    }, 1000);
+}
