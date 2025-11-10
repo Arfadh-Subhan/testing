@@ -94,28 +94,6 @@ const PRODUCTS = [
     },
     {
         id: 8,
-        name: "Chocolate Fantasy",
-        price: 4500,
-        image: "images/chocolatecake.jpeg",
-        description: "Rich dark chocolate layers with creamy chocolate ganache and fresh berries",
-        category: "chocolate",
-        ingredients: ["Dark Chocolate", "Fresh Cream", "Mixed Berries", "Cocoa Powder", "Vanilla Extract"],
-        sizes: ["Small (6\")", "Medium (8\")", "Large (10\")"],
-        delivery: "2-4 hours"
-    },
-    {
-        id: 9,
-        name: "Chocolate Fantasy",
-        price: 4500,
-        image: "images/chocolatecake.jpeg",
-        description: "Rich dark chocolate layers with creamy chocolate ganache and fresh berries",
-        category: "chocolate",
-        ingredients: ["Dark Chocolate", "Fresh Cream", "Mixed Berries", "Cocoa Powder", "Vanilla Extract"],
-        sizes: ["Small (6\")", "Medium (8\")", "Large (10\")"],
-        delivery: "2-4 hours"
-    },
-    {
-        id: 10,
         name: "Coffee Mocha Madness",
         price: 5500,
         image: "images/mocha-cake.jpg",
@@ -234,7 +212,7 @@ function setupAuth() {
     if (isLoggedIn) {
         userBtn.innerHTML = `
             <i class="fas fa-user-circle"></i>
-            <span>${userData.username || 'User'}</span>
+            <span class="seller-text">${userData.username || 'User'}</span>
             <i class="fas fa-chevron-down"></i>
         `;
         
@@ -255,7 +233,7 @@ function setupAuth() {
     } else if (isGuest) {
         userBtn.innerHTML = `
             <i class="fas fa-user"></i>
-            <span>Guest</span>
+            <span class="seller-text">Guest</span>
             <i class="fas fa-chevron-down"></i>
         `;
         
@@ -265,49 +243,66 @@ function setupAuth() {
                 Exit Guest
             </a>
         `;
+    } else {
+        userBtn.innerHTML = `
+            <i class="fas fa-user-shield"></i>
+            <span class="seller-text">Account</span>
+            <i class="fas fa-chevron-down"></i>
+        `;
+        
+        userDropdown.innerHTML = `
+            <a href="login.html" class="seller-login" id="sellerLogin">
+                <i class="fas fa-sign-in-alt"></i>
+                Login / Signup
+            </a>
+        `;
     }
 
-    // User dropdown toggle
-    userBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        userDropdown.classList.toggle('show');
-    });
-    
-    // Close dropdown when clicking outside
-    document.addEventListener('click', () => {
-        userDropdown.classList.remove('show');
-    });
-    
-    // Handle menu clicks
-    document.addEventListener('click', (e) => {
-        if (e.target.closest('.user-profile')) {
-            e.preventDefault();
-            showUserProfile();
-        }
-        
-        if (e.target.closest('.order-history')) {
-            e.preventDefault();
-            showOrderHistory();
-        }
-        
-        if (e.target.closest('.seller-logout')) {
-            e.preventDefault();
-            console.log('🚪 Logout clicked');
-            
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('isGuest');
-            localStorage.removeItem('user');
-            
-            showNotification('Logged out successfully!');
-            
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
-        }
-    });
+    // Setup dropdown manager
+    setupDropdownManager();
     
     // ADD THIS LINE - Setup guest notification
     setupGuestNotification();
+}
+
+// Mobile Dropdown Manager
+function setupDropdownManager() {
+    const userBtn = document.querySelector('.seller-btn');
+    const userDropdown = document.querySelector('.seller-dropdown');
+    let currentDropdown = null;
+
+    if (userBtn && userDropdown) {
+        userBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentDropdown === userDropdown) {
+                userDropdown.classList.remove('show');
+                currentDropdown = null;
+            } else {
+                // Close any other dropdowns
+                if (currentDropdown) {
+                    currentDropdown.classList.remove('show');
+                }
+                userDropdown.classList.add('show');
+                currentDropdown = userDropdown;
+            }
+        });
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', () => {
+        if (currentDropdown) {
+            currentDropdown.classList.remove('show');
+            currentDropdown = null;
+        }
+    });
+
+    // Close dropdowns on mobile scroll
+    window.addEventListener('scroll', () => {
+        if (window.innerWidth <= 768 && currentDropdown) {
+            currentDropdown.classList.remove('show');
+            currentDropdown = null;
+        }
+    });
 }
 
 // Show User Profile Modal
@@ -468,6 +463,7 @@ class ShoppingCart {
         this.setupNavigation();
         this.updateCartDisplay();
         this.setupCustomCakes();
+        this.setupMobileMenu();
     }
 
     setupEventListeners() {
@@ -537,6 +533,68 @@ class ShoppingCart {
                 this.closeModal();
             }
         });
+
+        // Handle menu clicks
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.user-profile')) {
+                e.preventDefault();
+                showUserProfile();
+            }
+            
+            if (e.target.closest('.order-history')) {
+                e.preventDefault();
+                showOrderHistory();
+            }
+            
+            if (e.target.closest('.seller-logout')) {
+                e.preventDefault();
+                console.log('🚪 Logout clicked');
+                
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('isGuest');
+                localStorage.removeItem('user');
+                
+                showNotification('Logged out successfully!');
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            }
+
+            if (e.target.closest('.seller-login')) {
+                e.preventDefault();
+                window.location.href = 'login.html';
+            }
+        });
+    }
+
+    setupMobileMenu() {
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (mobileToggle && navMenu) {
+            mobileToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navMenu.classList.toggle('mobile-show');
+                mobileToggle.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.nav-menu') && !e.target.closest('.mobile-menu-toggle')) {
+                    navMenu.classList.remove('mobile-show');
+                    mobileToggle.classList.remove('active');
+                }
+            });
+
+            // Close mobile menu when clicking links
+            navMenu.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    navMenu.classList.remove('mobile-show');
+                    mobileToggle.classList.remove('active');
+                }
+            });
+        }
     }
 
     setupCustomCakes() {
@@ -560,15 +618,17 @@ class ShoppingCart {
             console.error('❌ Custom cake form not found!');
         }
         
-        // Close form when clicking outside
-        document.addEventListener('click', (e) => {
-            if (customCakesSection.classList.contains('form-active') && 
-                !customFormContainer.contains(e.target) && 
-                e.target !== startCustomizingBtn &&
-                !e.target.closest('.start-customizing-btn')) {
-                this.hideCustomForm();
-            }
-        });
+        // Close form when clicking outside (mobile)
+        if (window.innerWidth <= 768) {
+            document.addEventListener('click', (e) => {
+                if (customCakesSection.classList.contains('form-active') && 
+                    !customFormContainer.contains(e.target) && 
+                    e.target !== startCustomizingBtn &&
+                    !e.target.closest('.start-customizing-btn')) {
+                    this.hideCustomForm();
+                }
+            });
+        }
 
         // Set background image
         this.setBackgroundImage();
@@ -660,35 +720,40 @@ class ShoppingCart {
     showCustomForm() {
         console.log('🎂 Showing custom form');
         
-        // First scroll the custom section into full view smoothly
-        customCakesSection.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start'
-        });
-        
-        // Wait for scroll to complete then show the form
-        setTimeout(() => {
+        if (window.innerWidth <= 768) {
+            // Mobile: Fixed right sidebar
             customCakesSection.classList.add('form-active');
             this.switchToDesignText();
-            
-            // Animate floating cakes out
             this.animateFloatingCakesOut();
             
-            // Prevent body scrolling when form is open
+            // Prevent body scrolling when form is open on mobile
             document.body.style.overflow = 'hidden';
             
             // Add escape key listener
             this.escapeHandler = this.handleEscapeKey.bind(this);
             document.addEventListener('keydown', this.escapeHandler);
-        }, 800); // Wait for scroll animation to complete
+        } else {
+            // Desktop: Original behavior
+            customCakesSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start'
+            });
+            
+            setTimeout(() => {
+                customCakesSection.classList.add('form-active');
+                this.switchToDesignText();
+                this.animateFloatingCakesOut();
+                document.body.style.overflow = 'hidden';
+                this.escapeHandler = this.handleEscapeKey.bind(this);
+                document.addEventListener('keydown', this.escapeHandler);
+            }, 800);
+        }
     }
 
     hideCustomForm() {
         console.log('❌ Hiding custom form');
         customCakesSection.classList.remove('form-active');
         this.switchToOriginalText();
-        
-        // Reset floating cakes
         this.resetFloatingCakes();
         
         // Restore body scrolling
@@ -1486,24 +1551,6 @@ function sendCancellationWhatsApp(order) {
     window.open(url, '_blank');
 }
 
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🏁 DOM fully loaded - initializing...');
-    
-    // Setup auth system
-    setupAuth();
-    
-    // Initialize shopping cart
-    window.cart = new ShoppingCart();
-    
-    console.log('✅ Cake Corner - All systems ready!');
-    
-    // Test function - can run in console
-    window.testAddToCart = () => {
-        window.cart.addToCart(1);
-    };
-});
-
 // ===== GUEST NOTIFICATION SYSTEM =====
 function showGuestNotification() {
     const isGuest = localStorage.getItem('isGuest') === 'true';
@@ -1602,117 +1649,7 @@ function setupGuestNotification() {
     }, 1000);
 }
 
-// ===== MOBILE DROPDOWN MANAGEMENT =====
-class MobileDropdownManager {
-    constructor() {
-        this.currentDropdown = null;
-        this.init();
-    }
-
-    init() {
-        console.log('📱 Mobile dropdown manager initialized');
-        this.setupDropdownEvents();
-        this.setupMobileMenuClose();
-    }
-
-    setupDropdownEvents() {
-        // Seller dropdown
-        const sellerBtn = document.querySelector('.seller-btn');
-        const sellerDropdown = document.querySelector('.seller-dropdown');
-        
-        if (sellerBtn && sellerDropdown) {
-            sellerBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.toggleDropdown(sellerDropdown);
-            });
-        }
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', () => {
-            this.closeAllDropdowns();
-        });
-
-        // Close dropdowns when scrolling on mobile
-        window.addEventListener('scroll', () => {
-            if (window.innerWidth <= 768) {
-                this.closeAllDropdowns();
-            }
-        });
-    }
-
-    toggleDropdown(dropdown) {
-        if (this.currentDropdown === dropdown) {
-            this.closeDropdown(dropdown);
-            this.currentDropdown = null;
-        } else {
-            this.closeAllDropdowns();
-            this.openDropdown(dropdown);
-            this.currentDropdown = dropdown;
-        }
-    }
-
-    openDropdown(dropdown) {
-        dropdown.classList.add('show');
-    }
-
-    closeDropdown(dropdown) {
-        dropdown.classList.remove('show');
-    }
-
-    closeAllDropdowns() {
-        const dropdowns = document.querySelectorAll('.seller-dropdown');
-        dropdowns.forEach(dropdown => {
-            this.closeDropdown(dropdown);
-        });
-        this.currentDropdown = null;
-    }
-
-    setupMobileMenuClose() {
-        // Close dropdowns when menu items are clicked
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.seller-dropdown a')) {
-                this.closeAllDropdowns();
-            }
-        });
-    }
-}
-
-// ===== MOBILE CUSTOM CAKE FORM =====
-function enhanceMobileCustomCakes() {
-    if (window.innerWidth > 768) return;
-    
-    const customSection = document.querySelector('.custom-cakes-section');
-    const customFormContainer = document.querySelector('.custom-form-container');
-    
-    if (!customSection || !customFormContainer) return;
-    
-    // Prevent body scroll when form is open
-    const originalOverflow = document.body.style.overflow;
-    
-    customSection.addEventListener('click', (e) => {
-        if (customSection.classList.contains('form-active') && 
-            !customFormContainer.contains(e.target) && 
-            e.target !== document.getElementById('startCustomizing')) {
-            window.cart.hideCustomForm();
-        }
-    });
-}
-
-// ===== ENHANCE MOBILE MODALS =====
-function enhanceMobileModals() {
-    if (window.innerWidth > 768) return;
-    
-    // Center modal content
-    const modalBody = document.getElementById('modalBody');
-    if (modalBody) {
-        modalBody.style.display = 'flex';
-        modalBody.style.flexDirection = 'column';
-        modalBody.style.alignItems = 'center';
-    }
-}
-
-// ===== UPDATE DOMCONTENTLOADED FOR MOBILE =====
-// Replace the existing DOMContentLoaded event listener in main-script.js with this:
+// Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🏁 DOM fully loaded - initializing...');
     
@@ -1722,13 +1659,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize shopping cart
     window.cart = new ShoppingCart();
     
-    // Initialize mobile dropdown manager
-    window.mobileDropdowns = new MobileDropdownManager();
-    
-    // Enhance mobile features
-    enhanceMobileCustomCakes();
-    enhanceMobileModals();
-    
     console.log('✅ Cake Corner - All systems ready!');
     
     // Test function - can run in console
@@ -1736,98 +1666,3 @@ document.addEventListener('DOMContentLoaded', () => {
         window.cart.addToCart(1);
     };
 });
-
-// ===== ENHANCE CUSTOM CAKE METHODS FOR MOBILE =====
-// Add these methods to the ShoppingCart class in main-script.js:
-
-// Inside the ShoppingCart class, add these methods:
-showCustomForm() {
-    console.log('🎂 Showing custom form');
-    
-    if (window.innerWidth <= 768) {
-        // Mobile: Fixed right sidebar
-        customCakesSection.classList.add('form-active');
-        this.switchToDesignText();
-        this.animateFloatingCakesOut();
-        
-        // Prevent body scrolling when form is open on mobile
-        document.body.style.overflow = 'hidden';
-        
-        // Add escape key listener
-        this.escapeHandler = this.handleEscapeKey.bind(this);
-        document.addEventListener('keydown', this.escapeHandler);
-    } else {
-        // Desktop: Original behavior
-        customCakesSection.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start'
-        });
-        
-        setTimeout(() => {
-            customCakesSection.classList.add('form-active');
-            this.switchToDesignText();
-            this.animateFloatingCakesOut();
-            document.body.style.overflow = 'hidden';
-            this.escapeHandler = this.handleEscapeKey.bind(this);
-            document.addEventListener('keydown', this.escapeHandler);
-        }, 800);
-    }
-}
-
-hideCustomForm() {
-    console.log('❌ Hiding custom form');
-    customCakesSection.classList.remove('form-active');
-    this.switchToOriginalText();
-    this.resetFloatingCakes();
-    
-    // Restore body scrolling
-    document.body.style.overflow = '';
-    
-    // Remove escape key listener
-    if (this.escapeHandler) {
-        document.removeEventListener('keydown', this.escapeHandler);
-    }
-}
-
-// ===== UPDATE GUEST NOTIFICATION POSITION =====
-// In the showGuestNotification function, ensure this CSS is applied:
-function showGuestNotification() {
-    const isGuest = localStorage.getItem('isGuest') === 'true';
-    
-    if (isGuest) {
-        // ... existing notification creation code ...
-        
-        // Ensure mobile positioning
-        notification.style.top = '60px'; // Below navbar
-        notification.style.left = '0';
-        notification.style.right = '0';
-        
-        // ... rest of existing code ...
-    }
-}
-
-.mobile-menu-toggle {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .mobile-menu-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 8px;
-        color: var(--white);
-        cursor: pointer;
-        font-size: 1.2rem;
-    }
-    
-    .navbar.scrolled .mobile-menu-toggle {
-        background: var(--primary-brown);
-        color: var(--white);
-        border: 1px solid var(--primary-brown);
-    }
-}
