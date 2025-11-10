@@ -2865,3 +2865,145 @@ body {
         padding: 0.75rem;
     }
 }
+
+/* ===== GUEST NOTIFICATION BANNER ===== */
+.guest-notification-banner {
+    position: fixed;
+    top: 80px; /* Below navbar */
+    left: 0;
+    right: 0;
+    background: rgba(245, 245, 220, 0.1); /* Transparent cream */
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+    padding: 15px 2rem;
+    z-index: 998;
+    transition: all 0.3s ease;
+    transform: translateY(-100px);
+    opacity: 0;
+}
+
+.guest-notification-banner.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.guest-notification-banner.scrolled {
+    background: rgba(245, 245, 220, 0.95); /* Solid cream */
+    border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+    box-shadow: 0 2px 10px rgba(139, 69, 19, 0.1);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.notification-text {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--white); /* White text initially */
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+/* When scrolled, change text color to coffee brown */
+.guest-notification-banner.scrolled .notification-text {
+    color: var(--primary-brown); /* Coffee brown when scrolled */
+}
+
+.notification-text i {
+    color: var(--white); /* White icon initially */
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+/* When scrolled, change icon color to coffee brown */
+.guest-notification-banner.scrolled .notification-text i {
+    color: var(--primary-brown); /* Coffee brown when scrolled */
+}
+
+.notification-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.close-notification {
+    background: none;
+    border: none;
+    color: var(--white); /* White close button initially */
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-notification:hover {
+    background: rgba(255, 255, 255, 0.2); /* Light background on hover */
+    transform: scale(1.1);
+}
+
+/* When scrolled, change close button color to coffee brown */
+.guest-notification-banner.scrolled .close-notification {
+    color: var(--primary-brown); /* Coffee brown when scrolled */
+}
+
+.guest-notification-banner.scrolled .close-notification:hover {
+    background: rgba(139, 69, 19, 0.1); /* Light brown background on hover when scrolled */
+}
+
+/* Laser Progress Bar */
+.laser-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #25D366, #128C7E);
+    width: 100%;
+    animation: laserProgress 12s linear forwards;
+}
+
+@keyframes laserProgress {
+    0% {
+        width: 100%;
+        opacity: 1;
+    }
+    100% {
+        width: 0%;
+        opacity: 0.8;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .guest-notification-banner {
+        top: 70px;
+        padding: 12px 1rem;
+    }
+    
+    .notification-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .notification-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .notification-text {
+        font-size: 0.9rem;
+    }
+}
