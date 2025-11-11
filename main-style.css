@@ -3064,3 +3064,62 @@ body {
         padding: 0.75rem;
     }
 }
+/* ===== FIX ZOOM AND SCALING ISSUES ===== */
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    touch-action: manipulation;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Prevent zoom on input focus on iOS */
+input, select, textarea {
+    font-size: 16px !important;
+}
+
+/* Prevent horizontal scroll */
+.container {
+    overflow-x: hidden;
+}
+
+/* Ensure proper scaling on mobile */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    
+    body {
+        min-width: 320px;
+        overflow-x: hidden;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 15px;
+    }
+    
+    /* Fix for iOS viewport issues */
+    @supports (-webkit-touch-callout: none) {
+        .hero {
+            height: -webkit-fill-available;
+        }
+    }
+}
+
+/* Fix for very small screens */
+@media (max-width: 360px) {
+    html {
+        font-size: 13px;
+    }
+    
+    .container {
+        padding: 0 10px;
+    }
+}
