@@ -1,7 +1,7 @@
-// main-script.js - MOBILE OPTIMIZED VERSION
+// main-script.js - MOBILE BUG FIXED VERSION
 
 // Debug: Check what's loading
-console.log('🚀 main-script.js loaded - MOBILE OPTIMIZED');
+console.log('🚀 main-script.js loaded - MOBILE BUG FIXED');
 
 // Configuration
 const CONFIG = {
@@ -691,6 +691,24 @@ class ShoppingCart {
         // Prevent body scrolling
         document.body.style.overflow = 'hidden';
         
+        // Auto-scroll to ensure form is visible
+        setTimeout(() => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }, 100);
+        
+        // Ensure form is scrollable and submit button visible
+        setTimeout(() => {
+            const formContainer = document.querySelector('.form-scroll-container');
+            if (formContainer) {
+                formContainer.scrollTop = 0;
+                // Add extra padding to ensure submit button is visible
+                formContainer.style.paddingBottom = '80px';
+            }
+        }, 200);
+        
         // Add touch close handler
         this.mobileOverlayHandler = this.handleMobileOverlayClick.bind(this);
         document.addEventListener('click', this.mobileOverlayHandler);
@@ -722,6 +740,12 @@ class ShoppingCart {
         this.switchToOriginalText();
         this.resetFloatingCakes();
         document.body.style.overflow = '';
+        
+        // Reset form container padding
+        const formContainer = document.querySelector('.form-scroll-container');
+        if (formContainer) {
+            formContainer.style.paddingBottom = '';
+        }
         
         if (this.mobileOverlayHandler) {
             document.removeEventListener('click', this.mobileOverlayHandler);
@@ -1622,7 +1646,7 @@ function setupGuestNotification() {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🏁 DOM fully loaded - initializing MOBILE OPTIMIZED...');
+    console.log('🏁 DOM fully loaded - initializing MOBILE BUG FIXED...');
     
     // Setup auth system
     setupAuth();
@@ -1630,7 +1654,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize shopping cart
     window.cart = new ShoppingCart();
     
-    console.log('✅ Cake Corner - All systems ready! MOBILE OPTIMIZED');
+    console.log('✅ Cake Corner - All systems ready! MOBILE BUGS FIXED');
     
     // Test function - can run in console
     window.testAddToCart = () => {
