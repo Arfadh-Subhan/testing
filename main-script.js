@@ -1,7 +1,7 @@
-// main-script.js - UPDATED VERSION
+// main-script.js - MOBILE OPTIMIZED VERSION
 
 // Debug: Check what's loading
-console.log('🚀 main-script.js loaded');
+console.log('🚀 main-script.js loaded - MOBILE OPTIMIZED');
 
 // Configuration
 const CONFIG = {
@@ -94,28 +94,6 @@ const PRODUCTS = [
     },
     {
         id: 8,
-        name: "Chocolate Fantasy",
-        price: 4500,
-        image: "images/chocolatecake.jpeg",
-        description: "Rich dark chocolate layers with creamy chocolate ganache and fresh berries",
-        category: "chocolate",
-        ingredients: ["Dark Chocolate", "Fresh Cream", "Mixed Berries", "Cocoa Powder", "Vanilla Extract"],
-        sizes: ["Small (6\")", "Medium (8\")", "Large (10\")"],
-        delivery: "2-4 hours"
-    },
-    {
-        id: 9,
-        name: "Chocolate Fantasy",
-        price: 4500,
-        image: "images/chocolatecake.jpeg",
-        description: "Rich dark chocolate layers with creamy chocolate ganache and fresh berries",
-        category: "chocolate",
-        ingredients: ["Dark Chocolate", "Fresh Cream", "Mixed Berries", "Cocoa Powder", "Vanilla Extract"],
-        sizes: ["Small (6\")", "Medium (8\")", "Large (10\")"],
-        delivery: "2-4 hours"
-    },
-    {
-        id: 10,
         name: "Coffee Mocha Madness",
         price: 5500,
         image: "images/mocha-cake.jpg",
@@ -144,6 +122,9 @@ const BACKGROUND_CONFIG = {
     imageUrl: 'images/chocolatecake.jpeg',
     fallbackUrl: 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
 };
+
+// Mobile Detection
+const isMobile = () => window.innerWidth <= 768;
 
 // Order History Functions
 function saveOrderToHistory(orderData) {
@@ -306,7 +287,7 @@ function setupAuth() {
         }
     });
     
-    // ADD THIS LINE - Setup guest notification
+    // Setup guest notification
     setupGuestNotification();
 }
 
@@ -560,15 +541,17 @@ class ShoppingCart {
             console.error('❌ Custom cake form not found!');
         }
         
-        // Close form when clicking outside
-        document.addEventListener('click', (e) => {
-            if (customCakesSection.classList.contains('form-active') && 
-                !customFormContainer.contains(e.target) && 
-                e.target !== startCustomizingBtn &&
-                !e.target.closest('.start-customizing-btn')) {
-                this.hideCustomForm();
-            }
-        });
+        // Close form when clicking outside (desktop only)
+        if (!isMobile()) {
+            document.addEventListener('click', (e) => {
+                if (customCakesSection.classList.contains('form-active') && 
+                    !customFormContainer.contains(e.target) && 
+                    e.target !== startCustomizingBtn &&
+                    !e.target.closest('.start-customizing-btn')) {
+                    this.hideCustomForm();
+                }
+            });
+        }
 
         // Set background image
         this.setBackgroundImage();
@@ -658,7 +641,19 @@ class ShoppingCart {
     }
 
     showCustomForm() {
-        console.log('🎂 Showing custom form');
+        console.log('🎂 Showing custom form - Mobile:', isMobile());
+        
+        if (isMobile()) {
+            // Mobile: Show as full-screen modal
+            this.showMobileCustomForm();
+        } else {
+            // Desktop: Original side panel behavior
+            this.showDesktopCustomForm();
+        }
+    }
+
+    showDesktopCustomForm() {
+        console.log('🖥️ Desktop custom form');
         
         // First scroll the custom section into full view smoothly
         customCakesSection.scrollIntoView({ 
@@ -680,23 +675,65 @@ class ShoppingCart {
             // Add escape key listener
             this.escapeHandler = this.handleEscapeKey.bind(this);
             document.addEventListener('keydown', this.escapeHandler);
-        }, 800); // Wait for scroll animation to complete
+        }, 800);
+    }
+
+    showMobileCustomForm() {
+        console.log('📱 Mobile custom form');
+        
+        // Add mobile-specific class
+        customCakesSection.classList.add('mobile-form-active');
+        this.switchToDesignText();
+        
+        // Animate floating cakes out
+        this.animateFloatingCakesOut();
+        
+        // Prevent body scrolling
+        document.body.style.overflow = 'hidden';
+        
+        // Add touch close handler
+        this.mobileOverlayHandler = this.handleMobileOverlayClick.bind(this);
+        document.addEventListener('click', this.mobileOverlayHandler);
     }
 
     hideCustomForm() {
         console.log('❌ Hiding custom form');
+        
+        if (isMobile()) {
+            this.hideMobileCustomForm();
+        } else {
+            this.hideDesktopCustomForm();
+        }
+    }
+
+    hideDesktopCustomForm() {
         customCakesSection.classList.remove('form-active');
         this.switchToOriginalText();
-        
-        // Reset floating cakes
         this.resetFloatingCakes();
-        
-        // Restore body scrolling
         document.body.style.overflow = '';
         
-        // Remove escape key listener
         if (this.escapeHandler) {
             document.removeEventListener('keydown', this.escapeHandler);
+        }
+    }
+
+    hideMobileCustomForm() {
+        customCakesSection.classList.remove('mobile-form-active');
+        this.switchToOriginalText();
+        this.resetFloatingCakes();
+        document.body.style.overflow = '';
+        
+        if (this.mobileOverlayHandler) {
+            document.removeEventListener('click', this.mobileOverlayHandler);
+        }
+    }
+
+    handleMobileOverlayClick(e) {
+        // Close mobile form when clicking outside the form container
+        if (!customFormContainer.contains(e.target) && 
+            e.target !== startCustomizingBtn &&
+            !e.target.closest('.start-customizing-btn')) {
+            this.hideCustomForm();
         }
     }
 
@@ -1486,24 +1523,6 @@ function sendCancellationWhatsApp(order) {
     window.open(url, '_blank');
 }
 
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🏁 DOM fully loaded - initializing...');
-    
-    // Setup auth system
-    setupAuth();
-    
-    // Initialize shopping cart
-    window.cart = new ShoppingCart();
-    
-    console.log('✅ Cake Corner - All systems ready!');
-    
-    // Test function - can run in console
-    window.testAddToCart = () => {
-        window.cart.addToCart(1);
-    };
-});
-
 // ===== GUEST NOTIFICATION SYSTEM =====
 function showGuestNotification() {
     const isGuest = localStorage.getItem('isGuest') === 'true';
@@ -1525,7 +1544,7 @@ function showGuestNotification() {
             <div class="notification-content">
                 <div class="notification-text">
                     <i class="fas fa-info-circle"></i>
-                    <span>Create a free account to manage orders, track your history, and cancel anytime with ease !</span>
+                    <span>Create a free account to manage orders, track your history, and cancel anytime with ease!</span>
                 </div>
                 <div class="notification-actions">
                     <button class="close-notification" title="Dismiss">
@@ -1542,7 +1561,7 @@ function showGuestNotification() {
             notification.classList.add('show');
         }, 500);
         
-        // Setup scroll behavior (same as navbar)
+        // Setup scroll behavior
         setupNotificationScroll(notification);
         
         // Setup event listeners
@@ -1558,7 +1577,6 @@ function showGuestNotification() {
 }
 
 function setupNotificationScroll(notification) {
-    // Same scroll behavior as navbar
     window.addEventListener('scroll', () => {
         if (window.scrollY > 100) {
             notification.classList.add('scrolled');
@@ -1601,3 +1619,21 @@ function setupGuestNotification() {
         showGuestNotification();
     }, 1000);
 }
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🏁 DOM fully loaded - initializing MOBILE OPTIMIZED...');
+    
+    // Setup auth system
+    setupAuth();
+    
+    // Initialize shopping cart
+    window.cart = new ShoppingCart();
+    
+    console.log('✅ Cake Corner - All systems ready! MOBILE OPTIMIZED');
+    
+    // Test function - can run in console
+    window.testAddToCart = () => {
+        window.cart.addToCart(1);
+    };
+});
