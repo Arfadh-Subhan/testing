@@ -439,7 +439,8 @@ body {
 }
 
 .custom-cakes-section.mobile-form-active .form-scroll-container {
-    max-height: calc(90vh - 80px);
+    max-height: calc(90vh - 100px);
+    padding-bottom: 80px;
 }
 
 @keyframes mobileFormSlideUp {
@@ -2518,77 +2519,71 @@ body {
     }
 }
 
-/* ===== RESPONSIVE DESIGN - MOBILE OPTIMIZED ===== */
-@media (max-width: 1024px) {
-    .hero-title {
-        font-size: 3rem;
-    }
-    
-    .about-content,
-    .contact-content {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-    
-    .footer-content {
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-    }
-    
-    .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(3, auto);
-    }
-    
-    .profile-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .custom-cakes-section.form-active .custom-left-side {
-        flex: 0 0 45%;
-    }
-    
-    .custom-cakes-section.form-active .custom-right-side {
-        flex: 0 0 55%;
-    }
-    
-    .custom-form-container {
-        max-width: 420px;
-    }
-    
-    .original-text h1 {
-        font-size: 2.4rem;
-    }
-    
-    .design-text h1 {
-        font-size: 2.2rem;
-    }
-    
-    .custom-cakes-section.form-active::before {
-        left: 45%;
-    }
-    
-    .cake-card {
-        width: 160px;
-    }
-    
-    .cake-card-1 {
-        left: 5%;
-    }
-    
-    .cake-card-2 {
-        right: 5%;
-    }
-}
-
+/* ===== MOBILE BUG FIXES ===== */
 @media (max-width: 768px) {
-    .container {
-        padding: 0 1.5rem;
+    /* Fix custom form submit button visibility */
+    .custom-cakes-section.mobile-form-active .form-scroll-container {
+        max-height: calc(90vh - 100px) !important;
+        padding-bottom: 80px !important;
+    }
+    
+    .custom-cakes-section.mobile-form-active .submit-btn {
+        position: sticky;
+        bottom: 10px;
+        margin-top: 20px;
+        z-index: 10;
+        background: #25D366;
+        border: 2px solid #25D366;
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+    
+    /* Fix modal centering for cake details */
+    .modal-container {
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 95% !important;
+        max-width: 95% !important;
+        margin: 0 !important;
+    }
+    
+    .modal-product {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .modal-product-image {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .modal-product-image img {
+        max-width: 100%;
+        height: auto;
+        max-height: 250px;
+    }
+    
+    .modal-product-details {
+        width: 100%;
+    }
+    
+    /* Fix empty white space between custom and about sections */
+    .custom-cakes-section:not(.mobile-form-active) {
+        min-height: 80vh !important;
+        margin-bottom: 0 !important;
+    }
+    
+    #about {
+        margin-top: -2px !important;
+        padding-top: 60px !important;
     }
     
     /* MOBILE NAVBAR - SMALLER */
     .navbar {
-        padding: 0.75rem 0; /* Reduced padding */
+        padding: 0.75rem 0;
     }
     
     .nav-brand {
@@ -2596,20 +2591,20 @@ body {
     }
     
     .logo {
-        width: 35px; /* Smaller logo */
+        width: 35px;
         height: 35px;
     }
     
     .logo i {
-        font-size: 1rem; /* Smaller icon */
+        font-size: 1rem;
     }
     
     .brand-name {
-        font-size: 1.3rem; /* Smaller brand name */
+        font-size: 1.3rem;
     }
     
     .seller-btn {
-        padding: 0.6rem 1.2rem; /* Smaller button */
+        padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
     }
     
@@ -2656,40 +2651,9 @@ body {
         right: -20px;
     }
     
-    /* MOBILE MODAL CENTERING */
-    .modal-container {
-        width: 95%;
-        max-width: 95%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    
-    .modal-product {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        padding: 1.5rem;
-    }
-    
-    .modal-product-image img {
-        height: 250px;
-    }
-    
-    .order-history-header {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-    
-    .order-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
     /* MOBILE GUEST NOTIFICATION POSITIONING */
     .guest-notification-banner {
-        top: 70px; /* Adjusted for smaller navbar */
+        top: 70px;
         padding: 12px 1rem;
     }
     
@@ -2903,6 +2867,23 @@ body {
     .cake-info p {
         font-size: 0.7rem;
     }
+    
+    /* Better mobile form scrolling */
+    .custom-cakes-section.mobile-form-active .form-scroll-container {
+        max-height: calc(85vh - 100px) !important;
+    }
+    
+    /* Smaller modal for very small screens */
+    .modal-container {
+        width: 98% !important;
+        max-height: 85vh !important;
+    }
+    
+    /* Better button positioning */
+    .custom-cakes-section.mobile-form-active .submit-btn {
+        bottom: 15px;
+        margin: 10px 0 0 0;
+    }
 }
 
 /* ===== HERO SECTION - FIXED BACKGROUND ===== */
@@ -3083,4 +3064,3 @@ body {
         padding: 0.75rem;
     }
 }
-
