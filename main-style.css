@@ -54,7 +54,7 @@ body {
     padding: 0 2rem;
 }
 
-/* ===== CUSTOM CAKES SECTION ===== */
+/* ===== CUSTOM CAKES SECTION - MOBILE OPTIMIZED ===== */
 .custom-cakes-section {
     display: flex;
     min-height: 100vh;
@@ -398,6 +398,59 @@ body {
 .custom-cakes-section.form-active .custom-form-container {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* ===== MOBILE CUSTOM FORM STYLES ===== */
+.custom-cakes-section.mobile-form-active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2001;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.custom-cakes-section.mobile-form-active .custom-left-side {
+    display: none;
+}
+
+.custom-cakes-section.mobile-form-active .custom-right-side {
+    flex: 0 0 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    animation: mobileFormSlideUp 0.4s ease-out;
+}
+
+.custom-cakes-section.mobile-form-active .custom-form-container {
+    opacity: 1;
+    transform: none;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+}
+
+.custom-cakes-section.mobile-form-active .form-scroll-container {
+    max-height: calc(90vh - 80px);
+}
+
+@keyframes mobileFormSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 /* Form Header */
@@ -1046,7 +1099,7 @@ body {
     box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
 }
 
-/* ===== NAVIGATION ===== */
+/* ===== NAVIGATION - MOBILE OPTIMIZED ===== */
 .navbar {
     position: fixed;
     top: 0;
@@ -1245,37 +1298,25 @@ body {
 }
 
 .hero-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.layer-1 {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-}
-
-.parallax-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 120%;
+    background-image: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1089&q=80');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-}
-
-.layer-1 {
-    background-image: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1089&q=80');
-    filter: brightness(0.8);
-}
-
-.layer-2 {
-    background-image: url('https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80');
     background-attachment: fixed;
-    opacity: 0.7;
-}
-
-.layer-3 {
-    background: linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(245, 245, 220, 0.2) 100%);
+    filter: brightness(0.7);
 }
 
 .hero-content {
@@ -1451,7 +1492,7 @@ body {
     50% { transform: translateY(10px); }
 }
 
-/* ===== MODAL ===== */
+/* ===== MODAL - MOBILE CENTERED ===== */
 .modal {
     position: fixed;
     top: 0;
@@ -2358,7 +2399,126 @@ body {
     color: #ff4444;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* ===== GUEST NOTIFICATION BANNER - MOBILE OPTIMIZED ===== */
+.guest-notification-banner {
+    position: fixed;
+    top: 80px; /* Below navbar */
+    left: 0;
+    right: 0;
+    background: rgba(245, 245, 220, 0.1); /* Transparent cream */
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+    padding: 15px 2rem;
+    z-index: 998;
+    transition: all 0.3s ease;
+    transform: translateY(-100px);
+    opacity: 0;
+}
+
+.guest-notification-banner.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.guest-notification-banner.scrolled {
+    background: rgba(245, 245, 220, 0.95); /* Solid cream */
+    border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+    box-shadow: 0 2px 10px rgba(139, 69, 19, 0.1);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.notification-text {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--white); /* White text initially */
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+/* When scrolled, change text color to coffee brown */
+.guest-notification-banner.scrolled .notification-text {
+    color: var(--primary-brown); /* Coffee brown when scrolled */
+}
+
+.notification-text i {
+    color: var(--white); /* White icon initially */
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+/* When scrolled, change icon color to coffee brown */
+.guest-notification-banner.scrolled .notification-text i {
+    color: var(--primary-brown); /* Coffee brown when scrolled */
+}
+
+.notification-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.close-notification {
+    background: none;
+    border: none;
+    color: var(--white); /* White close button initially */
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-notification:hover {
+    background: rgba(255, 255, 255, 0.2); /* Light background on hover */
+    transform: scale(1.1);
+}
+
+/* When scrolled, change close button color to coffee brown */
+.guest-notification-banner.scrolled .close-notification {
+    color: var(--primary-brown); /* Coffee brown when scrolled */
+}
+
+.guest-notification-banner.scrolled .close-notification:hover {
+    background: rgba(139, 69, 19, 0.1); /* Light brown background on hover when scrolled */
+}
+
+/* Laser Progress Bar */
+.laser-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #25D366, #128C7E);
+    width: 100%;
+    animation: laserProgress 12s linear forwards;
+}
+
+@keyframes laserProgress {
+    0% {
+        width: 100%;
+        opacity: 1;
+    }
+    100% {
+        width: 0%;
+        opacity: 0.8;
+    }
+}
+
+/* ===== RESPONSIVE DESIGN - MOBILE OPTIMIZED ===== */
 @media (max-width: 1024px) {
     .hero-title {
         font-size: 3rem;
@@ -2426,6 +2586,33 @@ body {
         padding: 0 1.5rem;
     }
     
+    /* MOBILE NAVBAR - SMALLER */
+    .navbar {
+        padding: 0.75rem 0; /* Reduced padding */
+    }
+    
+    .nav-brand {
+        gap: 0.5rem;
+    }
+    
+    .logo {
+        width: 35px; /* Smaller logo */
+        height: 35px;
+    }
+    
+    .logo i {
+        font-size: 1rem; /* Smaller icon */
+    }
+    
+    .brand-name {
+        font-size: 1.3rem; /* Smaller brand name */
+    }
+    
+    .seller-btn {
+        padding: 0.6rem 1.2rem; /* Smaller button */
+        font-size: 0.9rem;
+    }
+    
     .nav-menu {
         display: none;
     }
@@ -2469,6 +2656,15 @@ body {
         right: -20px;
     }
     
+    /* MOBILE MODAL CENTERING */
+    .modal-container {
+        width: 95%;
+        max-width: 95%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
     .modal-product {
         grid-template-columns: 1fr;
         gap: 1rem;
@@ -2491,6 +2687,28 @@ body {
         gap: 0.5rem;
     }
     
+    /* MOBILE GUEST NOTIFICATION POSITIONING */
+    .guest-notification-banner {
+        top: 70px; /* Adjusted for smaller navbar */
+        padding: 12px 1rem;
+    }
+    
+    .notification-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .notification-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .notification-text {
+        font-size: 0.9rem;
+    }
+    
+    /* MOBILE CUSTOM FORM STYLES */
     .custom-cakes-section {
         flex-direction: column;
         min-height: auto;
@@ -2863,147 +3081,5 @@ body {
     .cancel-cancel-btn {
         max-width: none;
         padding: 0.75rem;
-    }
-}
-
-/* ===== GUEST NOTIFICATION BANNER ===== */
-.guest-notification-banner {
-    position: fixed;
-    top: 80px; /* Below navbar */
-    left: 0;
-    right: 0;
-    background: rgba(245, 245, 220, 0.1); /* Transparent cream */
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(139, 69, 19, 0.2);
-    padding: 15px 2rem;
-    z-index: 998;
-    transition: all 0.3s ease;
-    transform: translateY(-100px);
-    opacity: 0;
-}
-
-.guest-notification-banner.show {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.guest-notification-banner.scrolled {
-    background: rgba(245, 245, 220, 0.95); /* Solid cream */
-    border-bottom: 1px solid rgba(139, 69, 19, 0.3);
-    box-shadow: 0 2px 10px rgba(139, 69, 19, 0.1);
-}
-
-.notification-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.notification-text {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: var(--white); /* White text initially */
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-}
-
-/* When scrolled, change text color to coffee brown */
-.guest-notification-banner.scrolled .notification-text {
-    color: var(--primary-brown); /* Coffee brown when scrolled */
-}
-
-.notification-text i {
-    color: var(--white); /* White icon initially */
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
-}
-
-/* When scrolled, change icon color to coffee brown */
-.guest-notification-banner.scrolled .notification-text i {
-    color: var(--primary-brown); /* Coffee brown when scrolled */
-}
-
-.notification-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.close-notification {
-    background: none;
-    border: none;
-    color: var(--white); /* White close button initially */
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.close-notification:hover {
-    background: rgba(255, 255, 255, 0.2); /* Light background on hover */
-    transform: scale(1.1);
-}
-
-/* When scrolled, change close button color to coffee brown */
-.guest-notification-banner.scrolled .close-notification {
-    color: var(--primary-brown); /* Coffee brown when scrolled */
-}
-
-.guest-notification-banner.scrolled .close-notification:hover {
-    background: rgba(139, 69, 19, 0.1); /* Light brown background on hover when scrolled */
-}
-
-/* Laser Progress Bar */
-.laser-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #25D366, #128C7E);
-    width: 100%;
-    animation: laserProgress 12s linear forwards;
-}
-
-@keyframes laserProgress {
-    0% {
-        width: 100%;
-        opacity: 1;
-    }
-    100% {
-        width: 0%;
-        opacity: 0.8;
-    }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .guest-notification-banner {
-        top: 70px;
-        padding: 12px 1rem;
-    }
-    
-    .notification-content {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-    
-    .notification-actions {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .notification-text {
-        font-size: 0.9rem;
     }
 }
