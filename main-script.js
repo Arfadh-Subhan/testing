@@ -1636,38 +1636,4 @@ document.addEventListener('DOMContentLoaded', () => {
     window.testAddToCart = () => {
         window.cart.addToCart(1);
     };
-
-    showMobileCustomForm() {
-    console.log('📱 Mobile custom form');
-    
-    // Add mobile-specific class
-    customCakesSection.classList.add('mobile-form-active');
-    this.switchToDesignText();
-    
-    // Animate floating cakes out
-    this.animateFloatingCakesOut();
-    
-    // Prevent body scrolling
-    document.body.style.overflow = 'hidden';
-    
-    // Auto-scroll to ensure form is visible
-    setTimeout(() => {
-        customCakesSection.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'center'
-        });
-    }, 100);
-    
-    // Add touch close handler
-    this.mobileOverlayHandler = this.handleMobileOverlayClick.bind(this);
-    document.addEventListener('click', this.mobileOverlayHandler);
-    
-    // Ensure form is scrollable and submit button visible
-    setTimeout(() => {
-        const formContainer = document.querySelector('.form-scroll-container');
-        if (formContainer) {
-            formContainer.scrollTop = 0;
-        }
-    }, 200);
-}
 });
