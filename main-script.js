@@ -94,6 +94,50 @@ const PRODUCTS = [
     },
     {
         id: 8,
+        name: "Strawberry Shortcake",
+        price: 4600,
+        image: "images/strawberry-cake.jpg",
+        description: "Light sponge with fresh strawberries and whipped cream",
+        category: "fruit",
+        ingredients: ["Fresh Strawberries", "Whipped Cream", "Vanilla Sponge", "Strawberry Glaze"],
+        sizes: ["Small (6\")", "Medium (8\")", "Large (10\")"],
+        delivery: "2-4 hours"
+    },
+    {
+        id: 9,
+        name: "Strawberry Shortcake",
+        price: 4600,
+        image: "images/strawberry-cake.jpg",
+        description: "Light sponge with fresh strawberries and whipped cream",
+        category: "fruit",
+        ingredients: ["Fresh Strawberries", "Whipped Cream", "Vanilla Sponge", "Strawberry Glaze"],
+        sizes: ["Small (6\")", "Medium (8\")", "Large (10\")"],
+        delivery: "2-4 hours"
+    },
+    {
+        id: 10,
+        name: "Strawberry Shortcake",
+        price: 4600,
+        image: "images/strawberry-cake.jpg",
+        description: "Light sponge with fresh strawberries and whipped cream",
+        category: "fruit",
+        ingredients: ["Fresh Strawberries", "Whipped Cream", "Vanilla Sponge", "Strawberry Glaze"],
+        sizes: ["Small (6\")", "Medium (8\")", "Large (10\")"],
+        delivery: "2-4 hours"
+    },
+    {
+        id: 11,
+        name: "Strawberry Shortcake",
+        price: 4600,
+        image: "images/strawberry-cake.jpg",
+        description: "Light sponge with fresh strawberries and whipped cream",
+        category: "fruit",
+        ingredients: ["Fresh Strawberries", "Whipped Cream", "Vanilla Sponge", "Strawberry Glaze"],
+        sizes: ["Small (6\")", "Medium (8\")", "Large (10\")"],
+        delivery: "2-4 hours"
+    },
+    {
+        id: 12,
         name: "Coffee Mocha Madness",
         price: 5500,
         image: "images/mocha-cake.jpg",
