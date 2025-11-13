@@ -691,13 +691,8 @@ class ShoppingCart {
         // Prevent body scrolling
         document.body.style.overflow = 'hidden';
         
-        // Auto-scroll to ensure form is visible
-        setTimeout(() => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }, 100);
+        // REMOVED AUTO-SCROLL TO TOP - FIX FOR MOBILE SCROLLING ISSUE
+        // This was causing the page to scroll to top when opening custom form
         
         // Ensure form is scrollable and submit button visible
         setTimeout(() => {
@@ -956,13 +951,15 @@ class ShoppingCart {
             dotsContainer.appendChild(dot);
         }
 
-        // Previous button
-        prevBtn.addEventListener('click', () => {
+        // Previous button - FIXED: Added preventDefault to stop scrolling
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // PREVENTS AUTO-SCROLLING
             this.prevPage();
         });
 
-        // Next button
-        nextBtn.addEventListener('click', () => {
+        // Next button - FIXED: Added preventDefault to stop scrolling
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // PREVENTS AUTO-SCROLLING
             this.nextPage();
         });
 
